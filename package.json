@@ -1,0 +1,13 @@
+{
+  "name": "trime",
+  "private": true,
+  "scripts": {
+    "dev":      "concurrently -n FE,BE -c cyan,yellow \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "build":    "npm run build --prefix frontend && npm run build --prefix backend",
+    "type-check": "npm run type-check --prefix frontend && tsc --noEmit --project backend/tsconfig.json"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

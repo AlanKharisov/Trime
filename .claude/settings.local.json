@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p C:/Users/alank/Desktop/Trime/frontend/app/\\\\\\(marketing\\\\\\)/about C:/Users/alank/Desktop/Trime/frontend/app/\\\\\\(marketing\\\\\\)/services C:/Users/alank/Desktop/Trime/frontend/app/\\\\\\(marketing\\\\\\)/work C:/Users/alank/Desktop/Trime/frontend/app/\\\\\\(marketing\\\\\\)/team C:/Users/alank/Desktop/Trime/frontend/app/\\\\\\(marketing\\\\\\)/contact C:/Users/alank/Desktop/Trime/frontend/app/api/contact)",
+      "Bash(mkdir -p C:/Users/alank/Desktop/Trime/frontend/components/ui C:/Users/alank/Desktop/Trime/frontend/components/layout C:/Users/alank/Desktop/Trime/frontend/components/sections C:/Users/alank/Desktop/Trime/frontend/components/animations)",
+      "Bash(mkdir -p C:/Users/alank/Desktop/Trime/frontend/lib C:/Users/alank/Desktop/Trime/frontend/hooks C:/Users/alank/Desktop/Trime/frontend/types C:/Users/alank/Desktop/Trime/frontend/public/images C:/Users/alank/Desktop/Trime/frontend/public/fonts C:/Users/alank/Desktop/Trime/frontend/styles)",
+      "Bash(mkdir -p C:/Users/alank/Desktop/Trime/backend/src/routes C:/Users/alank/Desktop/Trime/backend/src/controllers C:/Users/alank/Desktop/Trime/backend/src/middleware C:/Users/alank/Desktop/Trime/backend/src/services C:/Users/alank/Desktop/Trime/backend/src/config)"
+    ]
+  }
+}
