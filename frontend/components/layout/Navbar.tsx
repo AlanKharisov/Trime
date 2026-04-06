@@ -107,7 +107,7 @@ export function Navbar() {
           {/* ── Logo ──────────────────────────────────────────────────────── */}
           <Link href="/" className="relative flex items-center gap-2.5 shrink-0 focus-ring rounded-lg" aria-label="Trime Agency home">
             <Image
-              src="/logo-placeholder.png"
+              src="/images/logo/logo.jpg"
               alt="Trime Agency"
               width={32}
               height={32}

@@ -1,5 +1,4 @@
-import { Navbar }  from '@/components/layout/Navbar';
-import { Footer }  from '@/components/layout/Footer';
+import { Navbar } from '@/components/layout/Navbar';
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +7,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <main id="main-content" tabIndex={-1}>
         {children}
       </main>
-      <Footer />
     </>
   );
 }

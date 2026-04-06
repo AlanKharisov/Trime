@@ -1,45 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Strict mode for catching subtle React bugs early
   reactStrictMode: true,
-
-  // Compress assets via gzip
   compress: true,
+  poweredByHeader: false,
 
   images: {
     formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.unsplash.com',
-      },
-      {
-        // Deterministic placeholder photos used during development
-        protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-      {
-        // Picsum CDN delivery
-        protocol: 'https',
-        hostname: 'fastly.picsum.photos',
-      },
-    ],
-    // Limit image sizes to those actually used
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    // All images are local — no remote patterns needed
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-  },
-
-  // Forward /api/* calls to Express backend in dev
-  async rewrites() {
-    return [
-      {
-        source: '/api/backend/:path*',
-        destination:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:4000/api/:path*'
-            : `${process.env.BACKEND_URL}/api/:path*`,
-      },
-    ];
   },
 
   // Security headers
