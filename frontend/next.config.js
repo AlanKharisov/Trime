@@ -1,29 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  // GitHub Pages serves the site at /Trime/ (repo name)
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  trailingSlash: true,
+
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
 
   images: {
-    formats: ['image/avif', 'image/webp'],
-    // All images are local — no remote patterns needed
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-  },
-
-  // Security headers
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'X-Frame-Options',           value: 'DENY' },
-          { key: 'X-Content-Type-Options',     value: 'nosniff' },
-          { key: 'Referrer-Policy',            value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy',         value: 'camera=(), microphone=(), geolocation=()' },
-        ],
-      },
-    ];
+    // Static export requires unoptimized images (no server-side processing)
+    unoptimized: true,
   },
 
   // Keep bundle lean — only import the icons you need
