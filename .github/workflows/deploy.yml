@@ -28,8 +28,6 @@ jobs:
 
       - name: Build
         working-directory: frontend
-        env:
-          NEXT_PUBLIC_BASE_PATH: /Trime
         run: npm run build
 
       - name: Add .nojekyll
