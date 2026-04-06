@@ -40,6 +40,7 @@ const TEAM: TeamMemberData[] = [
     image:     '/images/team/viktoriia.jpg',
     imageAlt:  'Viktoriia Behei, UI/UX Designer, sketching wireframes at a tablet in a bright studio',
     skills:    ['Figma', 'Design Systems', 'Prototyping', 'Motion', 'A/B Testing'],
+    linkedin:  'https://www.linkedin.com/in/viktoria-behei-724743272?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
     telegram:  'https://web.telegram.org/a/#953733499'
   },
   {

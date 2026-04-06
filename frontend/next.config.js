@@ -11,7 +11,8 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './lib/imageLoader.js',
   },
 
   modularizeImports: {
