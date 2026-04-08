@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -142,61 +141,6 @@ export function Hero() {
             move. One team, zero hand-off friction.
           </motion.p>
 
-          {/* CTA row */}
-          <motion.div
-            variants={item}
-            className="flex flex-col sm:flex-row items-center gap-3 mt-2"
-          >
-            {/* Primary CTA */}
-            <motion.div
-              whileHover={{ scale: 1.03, y: -1 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-            >
-              <Link
-                href="/contact"
-                className={cn(
-                  'group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl',
-                  'bg-brand-500 hover:bg-brand-400',
-                  'text-white font-semibold text-sm',
-                  'shadow-glow hover:shadow-glow-lg',
-                  'transition-colors duration-200 focus-ring',
-                )}
-              >
-                Start your project
-                <motion.svg
-                  className="w-4 h-4"
-                  fill="none" viewBox="0 0 16 16" aria-hidden
-                  animate={{ x: [0, 3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
-                >
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </motion.svg>
-              </Link>
-            </motion.div>
-
-            {/* Secondary CTA */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-            >
-              <Link
-                href="/work"
-                className={cn(
-                  'inline-flex items-center gap-2 px-6 py-3.5 rounded-xl',
-                  'bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.16]',
-                  'text-white/80 hover:text-white font-medium text-sm',
-                  'transition-all duration-200 focus-ring',
-                )}
-              >
-                View our work
-                <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 16 16" aria-hidden>
-                  <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </motion.div>
-          </motion.div>
 
           {/* Social proof — avatars + star count */}
           <motion.div

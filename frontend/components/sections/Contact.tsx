@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 
-const CEO_TELEGRAM = 'https://web.telegram.org/a/#496711608';
+const CEO_TELEGRAM = 'https://t.me/kostikov99';
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function Contact() {
