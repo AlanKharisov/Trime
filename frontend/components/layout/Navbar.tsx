@@ -147,28 +147,6 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* ── Desktop CTA ───────────────────────────────────────────────── */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/contact"
-              className={cn(
-                'group relative inline-flex items-center gap-2 px-4 py-2 rounded-lg',
-                'bg-brand-500 hover:bg-brand-400 active:bg-brand-600',
-                'text-white text-sm font-semibold',
-                'shadow-glow hover:shadow-glow-lg',
-                'transition-all duration-200 focus-ring',
-              )}
-            >
-              Start a project
-              <svg
-                className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
-                fill="none" viewBox="0 0 14 14" aria-hidden
-              >
-                <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
-
           {/* ── Mobile hamburger ──────────────────────────────────────────── */}
           <button
             type="button"
@@ -225,30 +203,6 @@ export function Navbar() {
                 );
               })}
 
-              {/* Mobile CTA */}
-              <motion.div
-                custom={NAV_LINKS.length}
-                variants={linkVariants}
-                initial="closed"
-                animate="open"
-                exit="closed"
-                className="pt-2 mt-1 border-t border-surface-border"
-              >
-                <Link
-                  href="/contact"
-                  className={cn(
-                    'flex items-center justify-center gap-2 px-4 py-3 rounded-xl',
-                    'bg-brand-500 hover:bg-brand-400',
-                    'text-white text-[15px] font-semibold',
-                    'transition-colors duration-150',
-                  )}
-                >
-                  Start a project
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 14 14" aria-hidden>
-                    <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </motion.div>
             </nav>
           </motion.div>
         )}

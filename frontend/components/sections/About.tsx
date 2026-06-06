@@ -8,6 +8,17 @@ import { TeamCard, type TeamMemberData } from './TeamCard';
 // picsum.photos/seed/<slug>/<w>/<h> returns a deterministic placeholder.
 const TEAM: TeamMemberData[] = [
   {
+    name:      'Alexander Kostikov',
+    role:      'CEO Specialist',
+    roleTag:   'CEO',
+    roleColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+    bio:       'CEO and digital growth strategist. 10+ years in marketing, 7+ years in traffic arbitrage, IT, and crypto. Founded a company at 19. Combines business vision with technical expertise to scale digital products.',
+    image:     '/images/team/alexander.jpg',
+    imageAlt:  'Alexander Kostikov, CEO Specialist',
+    skills:    ['Technical CEO', 'Core Web Vitals', 'Schema', 'Link Building', 'Analytics'],
+    telegram:  'https://t.me/kostikov99'
+  },
+  {
     name:      'Alan Kharisov',
     role:      'Full-Stack Developer',
     roleTag:   'Full-Stack Dev',
@@ -42,17 +53,6 @@ const TEAM: TeamMemberData[] = [
     skills:    ['Figma', 'Design Systems', 'Prototyping', 'Motion', 'A/B Testing'],
     linkedin:  'https://www.linkedin.com/in/viktoria-behei-724743272?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
     telegram:  'https://web.telegram.org/a/#953733499'
-  },
-  {
-    name:      'Alexander Kostikov',
-    role:      'CEO Specialist',
-    roleTag:   'CEO',
-    roleColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
-    bio:       'CEO and digital growth strategist. 10+ years in marketing, 7+ years in traffic arbitrage, IT, and crypto. Founded a company at 19. Combines business vision with technical expertise to scale digital products.',
-    image:     '/images/team/alexander.jpg',
-    imageAlt:  'Alexander Kostikov, CEO Specialist',
-    skills:    ['Technical CEO', 'Core Web Vitals', 'Schema', 'Link Building', 'Analytics'],
-    telegram:  'https://web.telegram.org/a/#496711608'
   },
 ];
 
