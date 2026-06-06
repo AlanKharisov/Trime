@@ -9,19 +9,19 @@ import { TeamCard, type TeamMemberData } from './TeamCard';
 const TEAM: TeamMemberData[] = [
   {
     name:      'Alexander Kostikov',
-    role:      'CEO Specialist',
+    role:      'CEO',
     roleTag:   'CEO',
     roleColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
     bio:       'CEO and digital growth strategist. 10+ years in marketing, 7+ years in traffic arbitrage, IT, and crypto. Founded a company at 19. Combines business vision with technical expertise to scale digital products.',
     image:     '/images/team/alexander.jpg',
-    imageAlt:  'Alexander Kostikov, CEO Specialist',
+    imageAlt:  'Alexander Kostikov, CEO',
     skills:    ['Technical CEO', 'Core Web Vitals', 'Schema', 'Link Building', 'Analytics'],
     telegram:  'https://t.me/kostikov99'
   },
   {
     name:      'Alan Kharisov',
-    role:      'Full-Stack Developer',
-    roleTag:   'Full-Stack Dev',
+    role:      'CTO',
+    roleTag:   'CTO',
     roleColor: 'bg-brand-500/20 text-brand-300 border border-brand-500/30',
     bio:       'Specialist in scalable Node.js back-ends and React performance. Led architecture for SaaS platforms handling 500k+ MAU. Obsessed with load times and clean APIs.',
     image:     '/images/team/alan.jpg',
@@ -32,8 +32,8 @@ const TEAM: TeamMemberData[] = [
   },
   {
     name:      'Emil Torosyan',
-    role:      'Full-Stack Developer',
-    roleTag:   'Full-Stack Dev',
+    role:      'COO',
+    roleTag:   'COO',
     roleColor: 'bg-brand-500/20 text-brand-300 border border-brand-500/30',
     bio:       '4 years of experience and a proven portfolio of projects. From idea to MVP — turning concepts into functional products. Combining development, design, and creativity to build modern digital solutions.',
     image:     '/images/team/emil.jpg',
@@ -44,8 +44,8 @@ const TEAM: TeamMemberData[] = [
   },
   {
     name:      'Viktoriia Behei',
-    role:      'UI/UX Designer',
-    roleTag:   'UI/UX Design',
+    role:      'DD',
+    roleTag:   'DD',
     roleColor: 'bg-accent/20 text-accent border border-accent/30',
     bio:       'Crafts design systems and conversion-focused interfaces. Background in cognitive psychology — every layout decision is grounded in how users actually think and act.',
     image:     '/images/team/viktoriia.jpg',
