@@ -3,15 +3,16 @@ import Link from 'next/link';
 const FOOTER_LINKS = {
   'Dev Services': [
     { label: 'Business Site',      href: '/#dev-services' },
-    { label: 'Simple / Promo',     href: '/#dev-services' },
-    { label: 'Full-Stack Build',   href: '/#dev-services' },
-    { label: 'Telegram Bots',      href: '/#dev-services' },
+    { label: 'Simple Website',     href: '/#dev-services' },
+    { label: 'Online Store',       href: '/#dev-services' },
+    { label: 'Telegram Bot',       href: '/#dev-services' },
+    { label: 'Technical Spec',     href: '/#dev-services' },
   ],
   'Design Services': [
-    { label: 'UI/UX Design',       href: '/#design-services' },
-    { label: 'Brand Identity',     href: '/#design-services' },
-    { label: 'Wireframes',         href: '/#design-services' },
-    { label: 'Design Systems',     href: '/#design-services' },
+    { label: 'Turnkey Website Design', href: '/#design-services' },
+    { label: 'UI/UX Design',           href: '/#design-services' },
+    { label: 'Mobile + Desktop',       href: '/#design-services' },
+    { label: 'Figma Layout',           href: '/#design-services' },
   ],
   'Company': [
     { label: 'About Us',           href: '/#about'   },

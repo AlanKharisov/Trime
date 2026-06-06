@@ -13,92 +13,32 @@ const icons = {
       <path d="M10 2v2M10 16v2M2 10h2M16 10h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
-  sparkles: (
-    <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" aria-hidden>
-      <path d="M10 2l1.5 4.5H16l-3.75 2.75L13.75 14 10 11.25 6.25 14l1.5-4.75L4 6.5h4.5L10 2z"
-            stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  ),
-  layout: (
-    <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" aria-hidden>
-      <rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2 7h16M7 7v11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  ),
-  layers: (
-    <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" aria-hidden>
-      <path d="M2 10l8-5 8 5-8 5-8-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M2 14l8 5 8-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M2 6l8-4 8 4"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
 };
 
 // ─── Design service definitions ───────────────────────────────────────────────
 const DESIGN_SERVICES: ServiceData[] = [
   {
-    id:          'wireframes',
-    icon:        icons.layout,
-    label:       'UX Research',
-    name:        'Wireframes & Prototyping',
-    price:       '$200–$400',
-    priceNote:   'fixed project price',
-    description:
-      'Low- to high-fidelity wireframes and clickable Figma prototypes for testing ' +
-      'concepts before writing a single line of code. Cuts revision cycles in half.',
-    cta:         'Get a quote',
-    href:        '/#contact',
-    accentColor: 'bg-gradient-to-r from-violet-700 to-violet-500',
-  },
-  {
-    id:          'brand',
-    icon:        icons.sparkles,
-    label:       'Brand Identity',
-    name:        'Brand Identity Package',
-    price:       '$300–$600',
-    priceNote:   'fixed project price',
-    description:
-      'Logo, colour palette, typography system, and a concise brand guide — ' +
-      'everything needed to show up consistently across web, print, and socials.',
-    cta:         'Get a quote',
-    href:        '/#contact',
-    accentColor: 'bg-gradient-to-r from-rose-700 to-rose-500',
-  },
-  {
     id:          'ui-ux',
     icon:        icons.palette,
     label:       'Full UI/UX',
-    name:        'UI/UX Design — Full Product',
-    price:       '$500–$800',
-    priceNote:   'starting from',
+    name:        'Turnkey Website Design',
+    price:       '$80–$150 / page',
+    priceNote:   'or from $500 for a full website',
     description:
-      'End-to-end product design: user flows, component library, responsive screen ' +
-      'designs, and a developer-ready Figma handoff with named tokens.',
+      'Complete website design from structure to handoff. Ideal when you need a ' +
+      'ready-to-build visual system instead of isolated screens.',
     features: [
-      'User flow & journey mapping',
-      'Full responsive screen designs',
+      'UI/UX design',
+      'Mobile and desktop versions',
+      'Figma layout',
       'Interactive Figma prototype',
-      'Design token & component library',
+      'Developer-ready handoff',
     ],
     cta:         'Start your design',
     href:        '/#contact',
     featured:    true,
     badgeText:   'Most Requested',
     accentColor: 'bg-gradient-to-r from-brand-600 via-violet-500 to-rose-500',
-  },
-  {
-    id:          'design-system',
-    icon:        icons.layers,
-    label:       'Systems',
-    name:        'Design System / Style Guide',
-    price:       '$400–$700',
-    priceNote:   'fixed project price',
-    description:
-      'A scalable Figma design system with documented components, spacing rules, ' +
-      'and accessibility guidelines — built to grow with your product.',
-    cta:         'Get a quote',
-    href:        '/#contact',
-    accentColor: 'bg-gradient-to-r from-amber-700 to-amber-500',
   },
 ];
 
@@ -169,7 +109,7 @@ export function DesignServices() {
         </FadeIn>
 
         {/* ── Cards grid ───────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start mb-16">
+        <div className="grid grid-cols-1 max-w-md mb-16">
           {DESIGN_SERVICES.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}

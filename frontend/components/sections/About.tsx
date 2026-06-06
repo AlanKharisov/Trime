@@ -16,7 +16,7 @@ const TEAM: TeamMemberData[] = [
     image:     '/images/team/alan.jpg',
     imageAlt:  'Alan Kharisov, Full-Stack Developer, working at a dual-monitor desk setup',
     skills:    ['Next.js', 'React', 'Node.js', 'Go', 'Rust', 'TypeScript'],
-    linkedin:  'https://www.linkedin.com/in/алан-харісов-704b0b374?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
+    linkedin:  'https://www.linkedin.com/in/%D0%B0%D0%BB%D0%B0%D0%BD-%D1%85%D0%B0%D1%80%D1%96%D1%81%D0%BE%D0%B2-704b0b374?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
     github:    'https://github.com/AlanKharisov'
   },
   {

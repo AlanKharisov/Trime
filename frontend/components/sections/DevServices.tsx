@@ -33,6 +33,12 @@ const icons = {
       <path d="M10 7V4M8 4h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
+  document: (
+    <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" aria-hidden>
+      <path d="M5 2.75h6.5L15 6.25v11H5v-14z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M11.5 2.75v3.5H15M7.5 10h5M7.5 13h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
 };
 
 // ─── Service definitions ──────────────────────────────────────────────────────
@@ -42,11 +48,11 @@ const SERVICES: ServiceData[] = [
     icon:        icons.globe,
     label:       'Web Presence',
     name:        'Business Site / Upgraded Site',
-    price:       '$400–$700',
+    price:       '$700–$1,200',
     priceNote:   'fixed project price',
     description:
-      'A polished, SEO-ready marketing site or a full redesign of an existing one. ' +
-      'Includes responsive layout, performance audit, and on-page optimisation.',
+      'A polished business website or a serious upgrade of an existing site. ' +
+      'Includes responsive pages, clearer structure, performance tuning, and on-page SEO.',
     cta:         'Get a quote',
     href:        '/contact?service=business-site',
     accentColor: 'bg-gradient-to-r from-brand-700 to-brand-500',
@@ -55,12 +61,12 @@ const SERVICES: ServiceData[] = [
     id:          'frontend',
     icon:        icons.monitor,
     label:       'Frontend',
-    name:        'Simple Site / Promo Page',
-    price:       '$250',
-    priceNote:   'flat rate',
+    name:        'Simple Website / Business Card Site',
+    price:       '$350–$500',
+    priceNote:   'fixed project price',
     description:
-      'A fast, visually sharp promotional or landing page. Perfect for product launches, ' +
-      'events, or micro-brands that need to look great without the full-site overhead.',
+      'A clean, fast frontend for a small website, personal page, or business card site. ' +
+      'Best for a compact online presence with a professional responsive layout.',
     cta:         'Get a quote',
     href:        '/contact?service=frontend',
     accentColor: 'bg-gradient-to-r from-sky-700 to-sky-500',
@@ -69,17 +75,16 @@ const SERVICES: ServiceData[] = [
     id:          'backend',
     icon:        icons.server,
     label:       'Full-Stack / E-commerce',
-    name:        'Backend — Full Site',
-    price:       '$750',
-    priceNote:   'starting from',
+    name:        'Backend — Full Website / Online Store',
+    price:       '$1,200–$2,500',
+    priceNote:   'project range',
     description:
-      'Complete full-stack build with a production-grade back-end. Covers ' +
-      'everything needed to run a real transactional business online.',
+      'A complete full-stack website or online store with the backend logic needed ' +
+      'to run a transactional business online.',
     features: [
-      'User Authentication (OAuth + email/password)',
-      'Shopping Cart & Wishlist',
-      'Online Payment (Stripe / PayPal integration)',
-      'Admin Panel with order & inventory management',
+      'User registration and login',
+      'Shopping cart and online payment',
+      'Admin panel for managing products or services',
     ],
     cta:         'Start your build',
     href:        '/contact?service=backend',
@@ -92,14 +97,28 @@ const SERVICES: ServiceData[] = [
     icon:        icons.bot,
     label:       'Automation',
     name:        'Telegram Bot Development',
-    price:       '$200–$400',
+    price:       '$350–$800',
     priceNote:   'fixed project price',
     description:
-      'Custom Telegram bots for notifications, onboarding flows, customer support ' +
-      'automation, or internal tooling. Built with grammY / Telegraf and hosted for you.',
+      'Custom Telegram bots for requests, notifications, customer support, internal ' +
+      'tools, onboarding flows, and lightweight business automation.',
     cta:         'Get a quote',
     href:        '/contact?service=telegram-bot',
     accentColor: 'bg-gradient-to-r from-sky-600 to-cyan-500',
+  },
+  {
+    id:          'technical-specification',
+    icon:        icons.document,
+    label:       'Planning',
+    name:        'Technical Specification',
+    price:       '$100–$200',
+    priceNote:   'fixed project price',
+    description:
+      'A clear project brief for development: goals, user flows, feature list, page ' +
+      'structure, integrations, and implementation requirements before the build starts.',
+    cta:         'Plan your project',
+    href:        '/contact?service=technical-specification',
+    accentColor: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
   },
 ];
 
@@ -173,11 +192,11 @@ export function DevServices() {
         {/* ── Service cards grid ────────────────────────────────────────── */}
         {/*
           Desktop layout intent:
-            [Business Site] [Frontend]   [Backend ★] [Telegram Bot]
+            [Business Site] [Frontend] [Backend ★] [Telegram Bot] [Tech Spec]
           The Backend card is naturally taller thanks to the feature list,
           which gives it visual prominence without breaking the grid.
         */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-start mb-14">
           {SERVICES.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
