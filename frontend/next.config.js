@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Trime',
   trailingSlash: true,
 
   eslint: { ignoreDuringBuilds: true },
