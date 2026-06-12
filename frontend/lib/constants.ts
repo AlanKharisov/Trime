@@ -1,6 +1,6 @@
 // ─── Site-wide constants ──────────────────────────────────────────────────────
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trime.agency';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trime.org';
 export const SITE_NAME = 'Trime Agency';
 
 // ─── Navigation ───────────────────────────────────────────────────────────────

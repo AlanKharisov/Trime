@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trime.agency'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trime.org'),
   title: {
     template: '%s | Trime Agency',
     default: 'Trime Agency — Full-Stack Design & Development',
