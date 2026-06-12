@@ -1,5 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
+import { TextReveal } from '@/components/animations/TextReveal';
+import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 
 const CEO_TELEGRAM = 'https://t.me/kostikov99';
 
@@ -20,6 +22,14 @@ export function Contact() {
         }}
       />
 
+      {/* Floating orbs */}
+      <FloatingOrbs
+        orbs={[
+          { cx: '50%', cy: '110%', size: 460, color: 'rgba(37,88,255,0.10)', duration: 18, delay: 0 },
+          { cx: '15%', cy: '60%', size: 220, color: 'rgba(255,92,53,0.05)', duration: 20, delay: 2 },
+        ]}
+      />
+
       <div className="section-wrapper">
         <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-10">
 
@@ -31,17 +41,17 @@ export function Contact() {
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center gap-4"
           >
-            <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase font-mono">
+            <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase font-mono">
               {'// contact_us'}
-            </p>
-            <h2 className="text-display-lg font-bold text-white">
+            </TextReveal>
+            <TextReveal as="h2" className="text-display-lg font-bold text-white">
               Want to start a project?{' '}
               <span className="text-gradient">Message our CEO.</span>
-            </h2>
-            <p className="text-white/50 text-[15px] leading-relaxed max-w-lg">
+            </TextReveal>
+            <TextReveal as="p" delay={0.1} className="text-white/50 text-[15px] leading-relaxed max-w-lg">
               Skip the forms. Reach out directly to Alexander — he'll get back to you
               personally and help scope your project from day one.
-            </p>
+            </TextReveal>
           </motion.div>
 
           {/* Telegram CTA */}

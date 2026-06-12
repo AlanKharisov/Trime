@@ -1,17 +1,27 @@
 'use client';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
+import { CountUp } from '@/components/animations/CountUp';
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
 };
 
 const item = {
-  hidden:  { opacity: 0, y: 28, filter: 'blur(6px)' },
+  hidden:  { opacity: 0, y: 28, filter: 'blur(8px)' },
   visible: {
     opacity: 1, y: 0, filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const wordReveal = {
+  hidden:  { opacity: 0, y: 40, rotateX: -40 },
+  visible: {
+    opacity: 1, y: 0, rotateX: 0,
     transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
   },
 };
@@ -33,24 +43,19 @@ export function Hero() {
       className="relative isolate min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20"
     >
 
-      {/* ── Background layers ────────────────────────────────────────────── */}
-      {/* Radial gradient glow — top centre */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background: [
-            'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37,88,255,0.18) 0%, transparent 70%)',
-            'radial-gradient(ellipse 60% 40% at 80% 60%,  rgba(37,88,255,0.06) 0%, transparent 60%)',
-            'radial-gradient(ellipse 50% 35% at 10% 70%,  rgba(255,92,53,0.04) 0%, transparent 60%)',
-          ].join(', '),
-        }}
+      {/* ── Animated background orbs ─────────────────────────────────────── */}
+      <FloatingOrbs
+        orbs={[
+          { cx: '50%', cy: '20%', size: 520, color: 'rgba(37,88,255,0.16)', duration: 18, delay: 0 },
+          { cx: '85%', cy: '60%', size: 380, color: 'rgba(37,88,255,0.08)', duration: 22, delay: 2 },
+          { cx: '15%', cy: '70%', size: 340, color: 'rgba(255,92,53,0.07)', duration: 20, delay: 4 },
+        ]}
       />
 
       {/* Dot-grid overlay */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.18]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.15]"
         style={{
           backgroundImage:
             'radial-gradient(circle, rgba(255,255,255,0.55) 1px, transparent 1px)',
@@ -60,15 +65,6 @@ export function Hero() {
           WebkitMaskImage:
             'radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%)',
         }}
-      />
-
-      {/* Animated orb — bottom left */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-32 -left-32 w-[480px] h-[480px] rounded-full -z-10"
-        style={{ background: 'radial-gradient(circle, rgba(37,88,255,0.12) 0%, transparent 70%)' }}
-        animate={{ scale: [1, 1.08, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* ── Content ──────────────────────────────────────────────────────── */}
@@ -95,40 +91,53 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline with per-word reveal */}
           <motion.h1
-            variants={item}
+            variants={container}
+            initial="hidden"
+            animate="visible"
             className="text-display-2xl font-bold tracking-tight"
           >
-            We Build Products{' '}
-            <span className="relative inline-block">
-              <span className="text-gradient">People Love</span>
-              {/* Underline accent */}
-              <motion.svg
-                viewBox="0 0 320 12"
-                fill="none"
-                className="absolute -bottom-2 left-0 w-full"
-                aria-hidden
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ delay: 0.9, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <motion.path
-                  d="M4 8 C80 3, 160 10, 316 5"
-                  stroke="url(#underline-grad)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <defs>
-                  <linearGradient id="underline-grad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stopColor="#7aa0ff" />
-                    <stop offset="100%" stopColor="#2558ff" />
-                  </linearGradient>
-                </defs>
-              </motion.svg>
+            <span className="block overflow-hidden">
+              <motion.span variants={wordReveal} className="inline-block">We</motion.span>{' '}
+              <motion.span variants={wordReveal} className="inline-block">Build</motion.span>{' '}
+              <motion.span variants={wordReveal} className="inline-block">Products</motion.span>
             </span>
-            <br />
-            <span className="text-white/90">From Concept to Code</span>
+            <span className="block overflow-hidden">
+              <motion.span variants={wordReveal} className="inline-block">
+                <span className="relative inline-block">
+                  <span className="text-gradient">People Love</span>
+                  <motion.svg
+                    viewBox="0 0 320 12"
+                    fill="none"
+                    className="absolute -bottom-2 left-0 w-full"
+                    aria-hidden
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <motion.path
+                      d="M4 8 C80 3, 160 10, 316 5"
+                      stroke="url(#underline-grad)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <defs>
+                      <linearGradient id="underline-grad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%"   stopColor="#7aa0ff" />
+                        <stop offset="100%" stopColor="#2558ff" />
+                      </linearGradient>
+                    </defs>
+                  </motion.svg>
+                </span>
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden">
+              <motion.span variants={wordReveal} className="inline-block text-white/90">From</motion.span>{' '}
+              <motion.span variants={wordReveal} className="inline-block text-white/90">Concept</motion.span>{' '}
+              <motion.span variants={wordReveal} className="inline-block text-white/90">to</motion.span>{' '}
+              <motion.span variants={wordReveal} className="inline-block text-white/90">Code</motion.span>
+            </span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -141,7 +150,6 @@ export function Hero() {
             move. One team, zero hand-off friction.
           </motion.p>
 
-
           {/* Social proof — avatars + star count */}
           <motion.div
             variants={item}
@@ -150,14 +158,17 @@ export function Hero() {
             {/* Stacked avatar placeholders */}
             <div className="flex -space-x-2.5">
               {[...Array(5)].map((_, i) => (
-                <div
+                <motion.div
                   key={i}
+                  initial={{ opacity: 0, scale: 0.5, x: -10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ delay: 0.9 + i * 0.08, duration: 0.4 }}
                   className="w-8 h-8 rounded-full border-2 border-surface bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-[10px] font-bold text-white"
                   style={{ zIndex: 5 - i }}
                   aria-hidden
                 >
                   {String.fromCharCode(65 + i)}
-                </div>
+                </motion.div>
               ))}
             </div>
             <div className="text-sm text-white/50">
@@ -171,19 +182,22 @@ export function Hero() {
         <motion.div
           initial="hidden"
           animate="visible"
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } } }}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 1.1 } } }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-16 lg:mt-20 max-w-2xl mx-auto w-full rounded-2xl overflow-hidden border border-surface-border bg-surface-border"
         >
           {STATS.map(({ value, label }) => (
             <motion.div
               key={label}
               variants={{
-                hidden:  { opacity: 0, y: 16 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+                hidden:  { opacity: 0, y: 24, scale: 0.96 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
               }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="bg-surface-card px-6 py-6 flex flex-col items-center sm:items-start gap-1"
             >
-              <span className="text-3xl font-bold text-gradient">{value}</span>
+              <span className="text-3xl font-bold text-gradient">
+                <CountUp value={value} />
+              </span>
               <span className="text-sm text-white/45">{label}</span>
             </motion.div>
           ))}
@@ -193,15 +207,18 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
+          transition={{ delay: 1.6, duration: 0.7 }}
           className="flex flex-wrap items-center justify-center gap-2 mt-10"
           aria-label="Technologies we use"
         >
           <span className="text-xs text-white/25 mr-1 tracking-widest uppercase">Built with</span>
-          {STACK.map((tech) => (
+          {STACK.map((tech, i) => (
             <motion.span
               key={tech}
-              whileHover={{ scale: 1.05, borderColor: 'rgba(37,88,255,0.5)' }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7 + i * 0.05, duration: 0.4 }}
+              whileHover={{ scale: 1.08, borderColor: 'rgba(37,88,255,0.5)', y: -2 }}
               className={cn(
                 'px-3 py-1 rounded-full text-xs font-medium',
                 'border border-surface-border bg-surface-card text-white/50',
@@ -219,7 +236,7 @@ export function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 0.6 }}
+        transition={{ delay: 2.2, duration: 0.6 }}
         aria-hidden
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-white/20">Scroll</span>

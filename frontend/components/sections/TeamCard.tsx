@@ -82,7 +82,7 @@ export function TeamCard({ member, index }: { member: TeamMemberData; index: num
         delay: index * 0.1,
         ease: [0.16, 1, 0.3, 1],
       }}
-      whileHover="hovered"
+      whileHover={{ y: -8, transition: { duration: 0.25 } }}
       className="group relative flex flex-col rounded-2xl overflow-hidden border border-surface-border bg-surface-card shadow-card hover:border-brand-500/30 hover:shadow-glow transition-[border-color,box-shadow] duration-300"
     >
 

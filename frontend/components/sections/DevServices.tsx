@@ -1,5 +1,7 @@
 // Server Component — ServiceCard handles all client-side interactivity.
 import { FadeIn } from '@/components/animations/FadeIn';
+import { TextReveal } from '@/components/animations/TextReveal';
+import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { ServiceCard, type ServiceData } from './ServiceCard';
 
 // ─── Inline SVG icons (avoids a client import for lucide-react) ───────────────
@@ -173,23 +175,31 @@ export function DevServices() {
         style={{ background: 'radial-gradient(circle, rgba(37,88,255,0.07) 0%, transparent 70%)' }}
       />
 
+      {/* Floating orbs */}
+      <FloatingOrbs
+        orbs={[
+          { cx: '90%', cy: '20%', size: 360, color: 'rgba(37,88,255,0.07)', duration: 20, delay: 0 },
+          { cx: '10%', cy: '80%', size: 280, color: 'rgba(255,92,53,0.05)', duration: 18, delay: 3 },
+        ]}
+      />
+
       <div className="section-wrapper">
 
         {/* ── Section header ────────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mx-auto text-center mb-14">
-          <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
             {'// main services'}
-          </p>
-          <h2 className="text-display-xl font-bold text-white mb-5">
+          </TextReveal>
+          <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
             Transparent pricing.{' '}
             <span className="text-gradient">No surprises.</span>
-          </h2>
-          <p className="text-white/55 text-lg leading-relaxed">
+          </TextReveal>
+          <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
             Fixed-price projects mean you know the cost before a single line is written.
             Most clients choose the full-stack package because it covers design,
             development, and launch in one coherent build.
-          </p>
-        </FadeIn>
+          </TextReveal>
+        </div>
 
         {/* ── Service cards grid ────────────────────────────────────────── */}
         {/*

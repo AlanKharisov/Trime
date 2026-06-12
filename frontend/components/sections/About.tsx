@@ -1,6 +1,8 @@
 // Server Component — no 'use client' needed here.
 // Interactive hover effects are isolated inside TeamCard (client component).
 import { FadeIn } from '@/components/animations/FadeIn';
+import { TextReveal } from '@/components/animations/TextReveal';
+import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { TeamCard, type TeamMemberData } from './TeamCard';
 
 // ─── Team data ────────────────────────────────────────────────────────────────
@@ -100,25 +102,32 @@ const VALUES = [
 // ─── Section component (Server Component) ────────────────────────────────────
 export function About() {
   return (
-    <section id="about" aria-label="About Trime Agency" className="py-section">
+    <section id="about" aria-label="About Trime Agency" className="relative py-section overflow-hidden">
+      <FloatingOrbs
+        orbs={[
+          { cx: '80%', cy: '10%', size: 320, color: 'rgba(37,88,255,0.06)', duration: 22, delay: 0 },
+          { cx: '20%', cy: '85%', size: 300, color: 'rgba(16,185,129,0.05)', duration: 19, delay: 3 },
+        ]}
+      />
+
       <div className="section-wrapper">
 
         {/* ── Section header ──────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mx-auto text-center mb-16">
-          <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+        <div className="max-w-2xl mx-auto text-center mb-16">
+          <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
             The Team
-          </p>
-          <h2 className="text-display-xl font-bold text-white mb-5">
+          </TextReveal>
+          <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
             Four specialists.{' '}
             <span className="text-gradient">One seamless workflow.</span>
-          </h2>
-          <p className="text-white/55 text-lg leading-relaxed">
+          </TextReveal>
+          <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
             We're a deliberately small agency — four senior professionals who have worked
             together long enough to finish each other's sentences. Design decisions are made
             with performance in mind. Code is written with SEO baked in from line one. That
             coherence shows in every product we ship.
-          </p>
-        </FadeIn>
+          </TextReveal>
+        </div>
 
         {/* ── Team grid ───────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">

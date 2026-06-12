@@ -1,5 +1,7 @@
 // Server Component — ServiceCard handles all client-side interactivity.
 import { FadeIn } from '@/components/animations/FadeIn';
+import { TextReveal } from '@/components/animations/TextReveal';
+import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { ServiceCard, type ServiceData } from './ServiceCard';
 
 // ─── Inline SVG icons ─────────────────────────────────────────────────────────
@@ -87,26 +89,34 @@ export function DesignServices() {
         style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)' }}
       />
 
+      {/* Floating orbs */}
+      <FloatingOrbs
+        orbs={[
+          { cx: '15%', cy: '25%', size: 360, color: 'rgba(139,92,246,0.08)', duration: 20, delay: 1 },
+          { cx: '85%', cy: '70%', size: 280, color: 'rgba(236,72,153,0.05)', duration: 18, delay: 4 },
+        ]}
+      />
+
       <div className="section-wrapper">
 
         {/* ── Section header ────────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mx-auto text-center mb-14">
-          <p className="text-violet-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <TextReveal as="p" className="text-violet-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
             {'// design_services'}
-          </p>
-          <h2 className="text-display-xl font-bold text-white mb-5">
+          </TextReveal>
+          <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
             Design that converts,{' '}
             <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-violet-300 via-pink-300 to-rose-400 bg-clip-text text-transparent">
               not just impresses.
             </span>
-          </h2>
-          <p className="text-white/55 text-lg leading-relaxed">
+          </TextReveal>
+          <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
             Every pixel is a decision. Our designer brings a background in cognitive
             psychology to every project — so layouts guide users toward action, not
             just look good in a portfolio screenshot.
-          </p>
-        </FadeIn>
+          </TextReveal>
+        </div>
 
         {/* ── Cards grid ───────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 max-w-md mx-auto mb-16">
