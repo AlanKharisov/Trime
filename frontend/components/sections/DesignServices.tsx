@@ -90,7 +90,7 @@ export function DesignServices() {
       <div className="section-wrapper">
 
         {/* ── Section header ────────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mb-14">
+        <FadeIn className="max-w-2xl mx-auto text-center mb-14">
           <p className="text-violet-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
             {'// design_services'}
           </p>
@@ -109,7 +109,7 @@ export function DesignServices() {
         </FadeIn>
 
         {/* ── Cards grid ───────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 max-w-md mb-16">
+        <div className="grid grid-cols-1 max-w-md mx-auto mb-16">
           {DESIGN_SERVICES.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}

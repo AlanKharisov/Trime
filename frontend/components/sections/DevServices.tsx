@@ -54,7 +54,7 @@ const SERVICES: ServiceData[] = [
       'A polished business website or a serious upgrade of an existing site. ' +
       'Includes responsive pages, clearer structure, performance tuning, and on-page SEO.',
     cta:         'Get a quote',
-    href:        '/contact?service=business-site',
+    href:        'https://t.me/kostikov99',
     accentColor: 'bg-gradient-to-r from-brand-700 to-brand-500',
   },
   {
@@ -68,7 +68,7 @@ const SERVICES: ServiceData[] = [
       'A clean, fast frontend for a small website, personal page, or business card site. ' +
       'Best for a compact online presence with a professional responsive layout.',
     cta:         'Get a quote',
-    href:        '/contact?service=frontend',
+    href:        'https://t.me/kostikov99',
     accentColor: 'bg-gradient-to-r from-sky-700 to-sky-500',
   },
   {
@@ -86,8 +86,8 @@ const SERVICES: ServiceData[] = [
       'Shopping cart and online payment',
       'Admin panel for managing products or services',
     ],
-    cta:         'Start your build',
-    href:        '/contact?service=backend',
+    cta:         'Get a quote',
+    href:        'https://t.me/kostikov99',
     featured:    true,
     badgeText:   'Full Solution',
     accentColor: 'bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500',
@@ -103,7 +103,7 @@ const SERVICES: ServiceData[] = [
       'Custom Telegram bots for requests, notifications, customer support, internal ' +
       'tools, onboarding flows, and lightweight business automation.',
     cta:         'Get a quote',
-    href:        '/contact?service=telegram-bot',
+    href:        'https://t.me/kostikov99',
     accentColor: 'bg-gradient-to-r from-sky-600 to-cyan-500',
   },
   {
@@ -116,8 +116,8 @@ const SERVICES: ServiceData[] = [
     description:
       'A clear project brief for development: goals, user flows, feature list, page ' +
       'structure, integrations, and implementation requirements before the build starts.',
-    cta:         'Plan your project',
-    href:        '/contact?service=technical-specification',
+    cta:         'Get a quote',
+    href:        'https://t.me/kostikov99',
     accentColor: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
   },
 ];
@@ -174,9 +174,9 @@ export function DevServices() {
       <div className="section-wrapper">
 
         {/* ── Section header ────────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mb-14">
+        <FadeIn className="max-w-2xl mx-auto text-center mb-14">
           <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
-            {'// dev_services'}
+            {'// main services'}
           </p>
           <h2 className="text-display-xl font-bold text-white mb-5">
             Transparent pricing.{' '}
@@ -184,8 +184,8 @@ export function DevServices() {
           </h2>
           <p className="text-white/55 text-lg leading-relaxed">
             Fixed-price projects mean you know the cost before a single line is written.
-            Every tier includes clean, documented code and a live deployment — ready to
-            hand over or hand off.
+            Most clients choose the full-stack package because it covers design,
+            development, and launch in one coherent build.
           </p>
         </FadeIn>
 

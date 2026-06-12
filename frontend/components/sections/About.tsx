@@ -104,7 +104,7 @@ export function About() {
       <div className="section-wrapper">
 
         {/* ── Section header ──────────────────────────────────────────── */}
-        <FadeIn className="max-w-2xl mb-16">
+        <FadeIn className="max-w-2xl mx-auto text-center mb-16">
           <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
             The Team
           </p>

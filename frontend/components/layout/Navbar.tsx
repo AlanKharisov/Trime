@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/constants';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 // ─── Mobile menu animation variants ─────────────────────────────────────────
 const menuVariants = {
@@ -147,6 +148,11 @@ export function Navbar() {
             })}
           </nav>
 
+          {/* ── Language switcher (desktop) ───────────────────────────────── */}
+          <div className="hidden md:flex items-center">
+            <LanguageSwitcher />
+          </div>
+
           {/* ── Mobile hamburger ──────────────────────────────────────────── */}
           <button
             type="button"
@@ -202,6 +208,10 @@ export function Navbar() {
                   </motion.div>
                 );
               })}
+
+              <div className="pt-2">
+                <LanguageSwitcher />
+              </div>
 
             </nav>
           </motion.div>

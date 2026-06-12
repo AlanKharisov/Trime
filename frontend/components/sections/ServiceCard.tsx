@@ -154,6 +154,8 @@ export function ServiceCard({ service }: { service: ServiceData }) {
         >
           <Link
             href={service.href}
+            target={service.href.startsWith('http') ? '_blank' : undefined}
+            rel={service.href.startsWith('http') ? 'noopener noreferrer' : undefined}
             className={cn(
               'group w-full inline-flex items-center justify-between gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 focus-ring',
               featured

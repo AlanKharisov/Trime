@@ -1,14 +1,14 @@
 import Link from 'next/link';
 
 const FOOTER_LINKS = {
-  'Dev Services': [
+  'Services': [
     { label: 'Business Site',      href: '/#dev-services' },
     { label: 'Simple Website',     href: '/#dev-services' },
     { label: 'Online Store',       href: '/#dev-services' },
     { label: 'Telegram Bot',       href: '/#dev-services' },
     { label: 'Technical Spec',     href: '/#dev-services' },
   ],
-  'Design Services': [
+  'Design': [
     { label: 'Turnkey Website Design', href: '/#design-services' },
     { label: 'UI/UX Design',           href: '/#design-services' },
     { label: 'Mobile + Desktop',       href: '/#design-services' },

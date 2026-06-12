@@ -32,7 +32,7 @@ export function Contact() {
             className="flex flex-col items-center gap-4"
           >
             <p className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase font-mono">
-              {'// get_in_touch'}
+              {'// contact_us'}
             </p>
             <h2 className="text-display-lg font-bold text-white">
               Want to start a project?{' '}

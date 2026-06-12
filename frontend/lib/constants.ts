@@ -8,10 +8,10 @@ export const SITE_NAME = 'Trime Agency';
 // Anchor-based nav — all sections live on the home page.
 // /#section navigates from any inner page back to home + scrolls.
 export const NAV_LINKS = [
-  { label: 'About',           href: '/#about'           },
-  { label: 'Dev Services',    href: '/#dev-services'    },
-  { label: 'Design Services', href: '/#design-services' },
-  { label: 'Contact',         href: '/#contact'         },
+  { label: 'Team',     href: '/#about'           },
+  { label: 'Services', href: '/#dev-services'    },
+  { label: 'Design',   href: '/#design-services' },
+  { label: 'Contact',  href: '/#contact'         },
 ] as const;
 
 // ─── Social links ─────────────────────────────────────────────────────────────
