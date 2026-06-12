@@ -42,20 +42,22 @@ const icons = {
 };
 
 // ─── Service definitions ──────────────────────────────────────────────────────
+// Ordered by minimum price, ascending. The most capable (and expensive) tier
+// is still visually featured to guide buyers toward the full-stack package.
 const SERVICES: ServiceData[] = [
   {
-    id:          'business-site',
-    icon:        icons.globe,
-    label:       'Web Presence',
-    name:        'Business Site / Upgraded Site',
-    price:       '$700–$1,200',
+    id:          'technical-specification',
+    icon:        icons.document,
+    label:       'Planning',
+    name:        'Technical Specification',
+    price:       '$100–$200',
     priceNote:   'fixed project price',
     description:
-      'A polished business website or a serious upgrade of an existing site. ' +
-      'Includes responsive pages, clearer structure, performance tuning, and on-page SEO.',
-    cta:         'Get a quote',
+      'A clear project brief for development: goals, user flows, feature list, page ' +
+      'structure, integrations, and implementation requirements before the build starts.',
+    cta:         'Contact',
     href:        'https://t.me/kostikov99',
-    accentColor: 'bg-gradient-to-r from-brand-700 to-brand-500',
+    accentColor: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
   },
   {
     id:          'frontend',
@@ -67,9 +69,37 @@ const SERVICES: ServiceData[] = [
     description:
       'A clean, fast frontend for a small website, personal page, or business card site. ' +
       'Best for a compact online presence with a professional responsive layout.',
-    cta:         'Get a quote',
+    cta:         'Contact',
     href:        'https://t.me/kostikov99',
     accentColor: 'bg-gradient-to-r from-sky-700 to-sky-500',
+  },
+  {
+    id:          'telegram-bot',
+    icon:        icons.bot,
+    label:       'Automation',
+    name:        'Telegram Bot Development',
+    price:       '$350–$800',
+    priceNote:   'fixed project price',
+    description:
+      'Custom Telegram bots for requests, notifications, customer support, internal ' +
+      'tools, onboarding flows, and lightweight business automation.',
+    cta:         'Contact',
+    href:        'https://t.me/kostikov99',
+    accentColor: 'bg-gradient-to-r from-sky-600 to-cyan-500',
+  },
+  {
+    id:          'business-site',
+    icon:        icons.globe,
+    label:       'Web Presence',
+    name:        'Business Site / Upgraded Site',
+    price:       '$700–$1,200',
+    priceNote:   'fixed project price',
+    description:
+      'A polished business website or a serious upgrade of an existing site. ' +
+      'Includes responsive pages, clearer structure, performance tuning, and on-page SEO.',
+    cta:         'Contact',
+    href:        'https://t.me/kostikov99',
+    accentColor: 'bg-gradient-to-r from-brand-700 to-brand-500',
   },
   {
     id:          'backend',
@@ -86,39 +116,11 @@ const SERVICES: ServiceData[] = [
       'Shopping cart and online payment',
       'Admin panel for managing products or services',
     ],
-    cta:         'Get a quote',
+    cta:         'Contact',
     href:        'https://t.me/kostikov99',
     featured:    true,
     badgeText:   'Full Solution',
     accentColor: 'bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500',
-  },
-  {
-    id:          'telegram-bot',
-    icon:        icons.bot,
-    label:       'Automation',
-    name:        'Telegram Bot Development',
-    price:       '$350–$800',
-    priceNote:   'fixed project price',
-    description:
-      'Custom Telegram bots for requests, notifications, customer support, internal ' +
-      'tools, onboarding flows, and lightweight business automation.',
-    cta:         'Get a quote',
-    href:        'https://t.me/kostikov99',
-    accentColor: 'bg-gradient-to-r from-sky-600 to-cyan-500',
-  },
-  {
-    id:          'technical-specification',
-    icon:        icons.document,
-    label:       'Planning',
-    name:        'Technical Specification',
-    price:       '$100–$200',
-    priceNote:   'fixed project price',
-    description:
-      'A clear project brief for development: goals, user flows, feature list, page ' +
-      'structure, integrations, and implementation requirements before the build starts.',
-    cta:         'Get a quote',
-    href:        'https://t.me/kostikov99',
-    accentColor: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
   },
 ];
 

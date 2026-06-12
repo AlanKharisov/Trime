@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 
-const LANGUAGES = [
-  { code: 'en', label: 'EN' },
-  { code: 'uk', label: 'UA' },
-  { code: 'ru', label: 'RU' },
-];
+const SUPPORTED = ['en', 'uk', 'ru'] as const;
 
 declare global {
   interface Window {
@@ -16,18 +11,17 @@ declare global {
   }
 }
 
-export function LanguageSwitcher({ className }: { className?: string }) {
-  const [current, setCurrent] = useState('en');
-  const [loaded, setLoaded] = useState(false);
-
+/**
+ * Invisible component that auto-translates the page based on the user's
+ * browser / system language (or approximate location via Intl.Locale).
+ * Falls back to English for unsupported languages.
+ */
+export function AutoTranslate() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (document.getElementById('google-translate-script')) {
-      setLoaded(true);
-      return;
-    }
+    if (document.getElementById('google-translate-script')) return;
 
-    // Hide the default Google Translate widget via CSS
+    // Hide the default Google Translate widget UI
     const style = document.createElement('style');
     style.textContent = `
       .skiptranslate iframe,
@@ -36,14 +30,27 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       .goog-tooltip,
       .goog-tooltip:hover,
       .goog-te-balloon-frame,
-      #goog-gt-tt,
       .goog-te-menu-frame { display: none !important; }
       body { top: 0 !important; }
     `;
     document.head.appendChild(style);
 
+    const translateTo = (lang: string) => {
+      if (lang === 'en' || !window.doGTranslate) return;
+      window.doGTranslate(`en|${lang}`);
+    };
+
+    const detectLang = () => {
+      const raw =
+        navigator.language ||
+        (navigator as unknown as { userLanguage?: string }).userLanguage ||
+        'en';
+      const primary = raw.split('-')[0].toLowerCase();
+      return SUPPORTED.includes(primary as typeof SUPPORTED[number]) ? primary : 'en';
+    };
+
     window.googleTranslateElementInit2 = () => {
-      setLoaded(true);
+      translateTo(detectLang());
     };
 
     const script = document.createElement('script');
@@ -54,42 +61,5 @@ export function LanguageSwitcher({ className }: { className?: string }) {
     document.body.appendChild(script);
   }, []);
 
-  const handleChange = (code: string) => {
-    setCurrent(code);
-    if (code === 'en') {
-      // Restore original language
-      const frame = document.querySelector('.goog-te-banner-frame');
-      if (frame) {
-        (frame as HTMLIFrameElement).contentDocument
-          ?.querySelector('button[id*=":0.restore"]')
-          ?.dispatchEvent(new MouseEvent('click'));
-      }
-      return;
-    }
-    if (window.doGTranslate) {
-      window.doGTranslate(`en|${code}`);
-    }
-  };
-
-  return (
-    <div className={cn('flex items-center gap-1', className)}>
-      {LANGUAGES.map(({ code, label }) => (
-        <button
-          key={code}
-          type="button"
-          onClick={() => handleChange(code)}
-          disabled={!loaded && code !== 'en'}
-          className={cn(
-            'px-2 py-1 rounded-md text-[11px] font-semibold tracking-wider transition-colors duration-200',
-            current === code
-              ? 'bg-white/10 text-white'
-              : 'text-white/40 hover:text-white/80 hover:bg-white/[0.04]',
-          )}
-          aria-label={`Translate to ${label}`}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  );
+  return null;
 }
