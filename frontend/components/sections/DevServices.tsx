@@ -56,7 +56,7 @@ const SERVICES: ServiceData[] = [
       'A clear project brief for development: goals, user flows, feature list, page ' +
       'structure, integrations, and implementation requirements before the build starts.',
     cta:         'Contact',
-    href:        'https://t.me/kostikov99',
+    href:        '/#contact',
     accentColor: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
   },
   {
@@ -70,7 +70,7 @@ const SERVICES: ServiceData[] = [
       'A clean, fast frontend for a small website, personal page, or business card site. ' +
       'Best for a compact online presence with a professional responsive layout.',
     cta:         'Contact',
-    href:        'https://t.me/kostikov99',
+    href:        '/#contact',
     accentColor: 'bg-gradient-to-r from-sky-700 to-sky-500',
   },
   {
@@ -84,7 +84,7 @@ const SERVICES: ServiceData[] = [
       'Custom Telegram bots for requests, notifications, customer support, internal ' +
       'tools, onboarding flows, and lightweight business automation.',
     cta:         'Contact',
-    href:        'https://t.me/kostikov99',
+    href:        '/#contact',
     accentColor: 'bg-gradient-to-r from-sky-600 to-cyan-500',
   },
   {
@@ -98,7 +98,7 @@ const SERVICES: ServiceData[] = [
       'A polished business website or a serious upgrade of an existing site. ' +
       'Includes responsive pages, clearer structure, performance tuning, and on-page SEO.',
     cta:         'Contact',
-    href:        'https://t.me/kostikov99',
+    href:        '/#contact',
     accentColor: 'bg-gradient-to-r from-brand-700 to-brand-500',
   },
   {
@@ -117,7 +117,7 @@ const SERVICES: ServiceData[] = [
       'Admin panel for managing products or services',
     ],
     cta:         'Contact',
-    href:        'https://t.me/kostikov99',
+    href:        '/#contact',
     featured:    true,
     badgeText:   'Full Solution',
     accentColor: 'bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500',

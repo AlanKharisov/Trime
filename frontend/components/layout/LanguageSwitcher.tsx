@@ -4,6 +4,14 @@ import { useEffect } from 'react';
 
 const SUPPORTED = ['en', 'uk', 'ru'] as const;
 
+// Map common country codes to target language.
+const COUNTRY_TO_LANG: Record<string, string> = {
+  UA: 'uk',
+  RU: 'ru',
+  BY: 'ru',
+  KZ: 'ru',
+};
+
 declare global {
   interface Window {
     doGTranslate?: (pair: string) => void;
@@ -11,10 +19,34 @@ declare global {
   }
 }
 
+async function detectLangByIP(): Promise<string | null> {
+  try {
+    const res = await fetch('https://ipapi.co/json/', {
+      method: 'GET',
+      credentials: 'omit',
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { country_code?: string };
+    const country = data.country_code?.toUpperCase();
+    return country && COUNTRY_TO_LANG[country] ? COUNTRY_TO_LANG[country] : null;
+  } catch {
+    return null;
+  }
+}
+
+function detectLangByBrowser(): string {
+  const raw =
+    navigator.language ||
+    (navigator as unknown as { userLanguage?: string }).userLanguage ||
+    'en';
+  const primary = raw.split('-')[0].toLowerCase();
+  return SUPPORTED.includes(primary as typeof SUPPORTED[number]) ? primary : 'en';
+}
+
 /**
  * Invisible component that auto-translates the page based on the user's
- * browser / system language (or approximate location via Intl.Locale).
- * Falls back to English for unsupported languages.
+ * language / location. Uses browser language first, then falls back to IP
+ * geolocation. Defaults to English for unsupported regions.
  */
 export function AutoTranslate() {
   useEffect(() => {
@@ -40,17 +72,21 @@ export function AutoTranslate() {
       window.doGTranslate(`en|${lang}`);
     };
 
-    const detectLang = () => {
-      const raw =
-        navigator.language ||
-        (navigator as unknown as { userLanguage?: string }).userLanguage ||
-        'en';
-      const primary = raw.split('-')[0].toLowerCase();
-      return SUPPORTED.includes(primary as typeof SUPPORTED[number]) ? primary : 'en';
+    const runDetection = async () => {
+      const browserLang = detectLangByBrowser();
+      if (browserLang !== 'en') {
+        translateTo(browserLang);
+        return;
+      }
+      // Browser is English — try IP geolocation as a fallback.
+      const ipLang = await detectLangByIP();
+      if (ipLang) {
+        translateTo(ipLang);
+      }
     };
 
     window.googleTranslateElementInit2 = () => {
-      translateTo(detectLang());
+      runDetection();
     };
 
     const script = document.createElement('script');
