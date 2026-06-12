@@ -4,12 +4,34 @@ import { useEffect } from 'react';
 
 const SUPPORTED = ['en', 'uk', 'ru'] as const;
 
-// Map common country codes to target language.
+// Browser / system language detection is the most reliable signal.
+// IP geolocation is only used as a fallback when the browser is in English.
 const COUNTRY_TO_LANG: Record<string, string> = {
+  // Russian-speaking
+  RU: 'ru', BY: 'ru', KZ: 'ru', KG: 'ru', TJ: 'ru', TM: 'ru', UZ: 'ru',
+  // Ukrainian
   UA: 'uk',
-  RU: 'ru',
-  BY: 'ru',
-  KZ: 'ru',
+  // Western Europe
+  ES: 'es', FR: 'fr', DE: 'de', IT: 'it', PT: 'pt', NL: 'nl', BE: 'fr',
+  CH: 'de', AT: 'de', SE: 'sv', DK: 'da', NO: 'no', FI: 'fi', IE: 'en',
+  GB: 'en', UK: 'en', US: 'en', CA: 'en', AU: 'en', NZ: 'en',
+  // Central / Eastern Europe
+  PL: 'pl', CZ: 'cs', SK: 'sk', HU: 'hu', RO: 'ro', BG: 'bg', HR: 'hr',
+  SI: 'sl', LT: 'lt', LV: 'lv', EE: 'et', BA: 'bs', RS: 'sr', MK: 'mk',
+  AL: 'sq', GR: 'el', MT: 'mt', CY: 'el',
+  // Americas
+  MX: 'es', AR: 'es', CL: 'es', CO: 'es', PE: 'es', VE: 'es', EC: 'es',
+  BO: 'es', PY: 'es', UY: 'es', CR: 'es', PA: 'es', GT: 'es', HN: 'es',
+  NI: 'es', SV: 'es', DO: 'es', PR: 'es', CU: 'es',
+  BR: 'pt',
+  // Asia
+  JP: 'ja', KR: 'ko', CN: 'zh-CN', TW: 'zh-TW', HK: 'zh-TW', SG: 'en',
+  MY: 'ms', ID: 'id', TH: 'th', VN: 'vi', PH: 'tl', IN: 'hi', BD: 'bn',
+  PK: 'ur', IR: 'fa', IL: 'he', SA: 'ar', AE: 'ar', TR: 'tr',
+  // Africa / Middle East
+  ZA: 'af', NG: 'en', EG: 'ar', MA: 'ar', DZ: 'ar', TN: 'ar', KE: 'sw',
+  // Oceania
+  ID_OCEANIA: 'en',
 };
 
 declare global {
@@ -45,8 +67,11 @@ function detectLangByBrowser(): string {
 
 /**
  * Invisible component that auto-translates the page based on the user's
- * language / location. Uses browser language first, then falls back to IP
- * geolocation. Defaults to English for unsupported regions.
+ * language / location.
+ *
+ * 1. Browser language first (ru/uk/en supported natively).
+ * 2. If browser is English, fall back to IP geolocation country → language.
+ * 3. Default to English for unsupported regions.
  */
 export function AutoTranslate() {
   useEffect(() => {
