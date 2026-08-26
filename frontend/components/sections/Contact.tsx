@@ -49,7 +49,7 @@ export function Contact() {
               <span className="text-gradient">Message our CEO.</span>
             </TextReveal>
             <TextReveal as="p" delay={0.1} className="text-white/50 text-[15px] leading-relaxed max-w-lg">
-              Skip the forms. Reach out directly to Alexander — he'll get back to you
+              Skip the forms. Reach out directly to Alexander — he&apos;ll get back to you
               personally and help scope your project from day one.
             </TextReveal>
           </motion.div>

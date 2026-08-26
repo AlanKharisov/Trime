@@ -112,6 +112,7 @@ export function Navbar() {
               alt="Trime Agency"
               width={32}
               height={32}
+              unoptimized
               className="rounded-md"
               priority
             />

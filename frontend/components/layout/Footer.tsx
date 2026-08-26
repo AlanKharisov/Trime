@@ -16,7 +16,7 @@ const FOOTER_LINKS = {
   ],
   'Company': [
     { label: 'About Us',           href: '/#about'   },
-    { label: 'Our Work',           href: '/#work'    },
+    { label: 'Our Work',           href: '/work/'    },
     { label: 'Contact',            href: '/#contact' },
   ],
 } as const;
@@ -68,12 +68,7 @@ export function Footer() {
           <p className="text-white/25 text-xs text-center sm:text-left">
             © {year} Trime Agency. All rights reserved.
           </p>
-          <Link
-            href="/privacy"
-            className="text-white/25 hover:text-white/50 text-xs transition-colors duration-150"
-          >
-            Privacy Policy
-          </Link>
+          <span className="text-white/25 text-xs">Direct, human communication</span>
         </div>
 
       </div>

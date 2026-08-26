@@ -122,8 +122,8 @@ export function About() {
             <span className="text-gradient">One seamless workflow.</span>
           </TextReveal>
           <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
-            We're a deliberately small agency — four senior professionals who have worked
-            together long enough to finish each other's sentences. Design decisions are made
+            We&apos;re a deliberately small agency — four senior professionals who have worked
+            together long enough to finish each other&apos;s sentences. Design decisions are made
             with performance in mind. Code is written with SEO baked in from line one. That
             coherence shows in every product we ship.
           </TextReveal>

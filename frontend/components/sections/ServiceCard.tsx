@@ -50,7 +50,10 @@ export function ServiceCard({ service }: { service: ServiceData }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -8, transition: { duration: 0.25 } }}
+      whileHover="hovered"
+      whileTap={{ scale: 0.99 }}
+      variants={{ hovered: { y: -8, transition: { duration: 0.25 } } }}
+      whileFocus={{ y: -4 }}
       className={cn(
         'relative flex flex-col rounded-2xl overflow-hidden transition-[box-shadow,border-color] duration-300',
         featured

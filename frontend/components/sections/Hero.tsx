@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { CountUp } from '@/components/animations/CountUp';
+import { HeroObject3D } from '@/components/animations/HeroObject3D';
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const container = {
@@ -40,7 +41,7 @@ export function Hero() {
   return (
     <section
       aria-label="Hero"
-      className="relative isolate min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20"
+      className="hero-section relative isolate min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20"
     >
 
       {/* ── Animated background orbs ─────────────────────────────────────── */}
@@ -69,12 +70,13 @@ export function Hero() {
 
       {/* ── Content ──────────────────────────────────────────────────────── */}
       <div className="section-wrapper w-full">
-        <motion.div
+        <div className="hero-layout">
+          <motion.div
           variants={container}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center text-center max-w-4xl mx-auto gap-6"
-        >
+          className="hero-copy flex flex-col items-center text-center xl:items-start xl:text-left gap-6"
+          >
 
           {/* Eyebrow badge */}
           <motion.div variants={item}>
@@ -176,14 +178,24 @@ export function Hero() {
               {' '}trust Trime with their product
             </div>
           </motion.div>
-        </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-stage"
+          >
+            <HeroObject3D />
+          </motion.div>
+        </div>
 
         {/* ── Stat cards ─────────────────────────────────────────────────── */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 1.1 } } }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-16 lg:mt-20 max-w-2xl mx-auto w-full rounded-2xl overflow-hidden border border-surface-border bg-surface-border"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-12 lg:mt-16 max-w-3xl mx-auto w-full rounded-2xl overflow-hidden border border-surface-border bg-surface-border"
         >
           {STATS.map(({ value, label }) => (
             <motion.div

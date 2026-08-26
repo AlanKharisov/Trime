@@ -82,7 +82,8 @@ export function TeamCard({ member, index }: { member: TeamMemberData; index: num
         delay: index * 0.1,
         ease: [0.16, 1, 0.3, 1],
       }}
-      whileHover={{ y: -8, transition: { duration: 0.25 } }}
+      whileHover="hovered"
+      variants={{ hovered: { y: -8, transition: { duration: 0.25 } } }}
       className="group relative flex flex-col rounded-2xl overflow-hidden border border-surface-border bg-surface-card shadow-card hover:border-brand-500/30 hover:shadow-glow transition-[border-color,box-shadow] duration-300"
     >
 
@@ -111,6 +112,7 @@ export function TeamCard({ member, index }: { member: TeamMemberData; index: num
             src={member.image}
             alt={member.imageAlt}
             fill
+            unoptimized
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover object-top"
           />
