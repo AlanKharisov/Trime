@@ -1,29 +1,33 @@
+'use client';
+
 import Link from 'next/link';
+import { useLocale } from './LocaleProvider';
 
 const FOOTER_LINKS = {
-  'Services': [
-    { label: 'Business Site',      href: '/#dev-services' },
-    { label: 'Simple Website',     href: '/#dev-services' },
-    { label: 'Online Store',       href: '/#dev-services' },
-    { label: 'Telegram Bot',       href: '/#dev-services' },
-    { label: 'Technical Spec',     href: '/#dev-services' },
+  services: [
+    { key: 'business', href: '/#dev-services' },
+    { key: 'simple', href: '/#dev-services' },
+    { key: 'store', href: '/#dev-services' },
+    { key: 'bot', href: '/#dev-services' },
+    { key: 'spec', href: '/#dev-services' },
   ],
-  'Design': [
-    { label: 'Turnkey Website Design', href: '/#design-services' },
-    { label: 'UI/UX Design',           href: '/#design-services' },
-    { label: 'Mobile + Desktop',       href: '/#design-services' },
-    { label: 'Figma Layout',           href: '/#design-services' },
+  design: [
+    { key: 'turnkey', href: '/#design-services' },
+    { key: 'uiux', href: '/#design-services' },
+    { key: 'mobileDesktop', href: '/#design-services' },
+    { key: 'figma', href: '/#design-services' },
   ],
-  'Company': [
-    { label: 'About Us',           href: '/#about'   },
-    { label: 'Our Work',           href: '/work/'    },
-    { label: 'Contact',            href: '/#contact' },
+  company: [
+    { key: 'about', href: '/#about' },
+    { key: 'work', href: '/work/' },
+    { key: 'contact', href: '/#contact' },
   ],
 } as const;
 
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { t } = useLocale();
 
   return (
     <footer className="relative border-t border-surface-border" aria-label="Site footer">
@@ -40,20 +44,20 @@ export function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 py-16">
 
           {/* Link columns */}
-          {(Object.entries(FOOTER_LINKS) as [string, readonly { label: string; href: string }[]][]).map(
+          {(Object.entries(FOOTER_LINKS) as [keyof typeof FOOTER_LINKS, readonly { key: string; href: string }[]][]).map(
             ([group, links]) => (
               <div key={group} className="flex flex-col gap-4">
                 <p className="text-white/30 text-[10px] font-semibold tracking-[0.18em] uppercase">
-                  {group}
+                  {t(`footer.${group}`)}
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {links.map(({ label, href }) => (
-                    <li key={label}>
+                  {links.map(({ key, href }) => (
+                    <li key={key}>
                       <Link
                         href={href}
                         className="text-white/50 hover:text-white/85 text-[13.5px] transition-colors duration-150"
                       >
-                        {label}
+                        {t(`footer.${key}`)}
                       </Link>
                     </li>
                   ))}
@@ -68,7 +72,7 @@ export function Footer() {
           <p className="text-white/25 text-xs text-center sm:text-left">
             © {year} Trime Agency. All rights reserved.
           </p>
-          <span className="text-white/25 text-xs">Direct, human communication</span>
+          <span className="text-white/25 text-xs">{t('footer.direct')}</span>
         </div>
 
       </div>

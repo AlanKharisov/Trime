@@ -1,8 +1,10 @@
-// Server Component — ServiceCard handles all client-side interactivity.
+'use client';
+
 import { FadeIn } from '@/components/animations/FadeIn';
 import { TextReveal } from '@/components/animations/TextReveal';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { ServiceCard, type ServiceData } from './ServiceCard';
+import { useLocale } from '@/components/layout/LocaleProvider';
 
 // ─── Inline SVG icons (avoids a client import for lucide-react) ───────────────
 const icons = {
@@ -135,6 +137,36 @@ const TRUST = [
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 export function DevServices() {
+  const { t } = useLocale();
+  const services = SERVICES.map((service) => {
+    const key = service.id === 'technical-specification'
+      ? 'tech'
+      : service.id === 'telegram-bot'
+        ? 'bot'
+        : service.id === 'business-site'
+          ? 'business'
+          : service.id;
+    return {
+      ...service,
+      label: t(`service.${key}.label`),
+      name: t(`service.${key}.name`),
+      priceNote: t(`service.${key}.priceNote`),
+      description: t(`service.${key}.description`),
+      cta: t('service.cta'),
+      badgeText: service.featured ? t('service.backend.badge') : service.badgeText,
+      features: service.features?.map((_, index) => t(`service.backend.feature${index + 1}`)),
+    };
+  });
+  const included = [
+    ['🔐', t('included.https')], ['📱', t('included.mobile')], ['⚡', t('included.vitals')],
+    ['🔎', t('included.seo')], ['🚀', t('included.deploy')], ['📄', t('included.handover')],
+  ];
+  const trust = [
+    { value: '7d', label: t('trust.delivery') },
+    { value: '100%', label: t('trust.ownership') },
+    { value: '30d', label: t('trust.support') },
+  ];
+
   return (
     <section
       id="dev-services"
@@ -188,16 +220,14 @@ export function DevServices() {
         {/* ── Section header ────────────────────────────────────────────── */}
         <div className="max-w-2xl mx-auto text-center mb-14">
           <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
-            {'// main services'}
+            {t('services.eyebrow')}
           </TextReveal>
           <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
-            Transparent pricing.{' '}
-            <span className="text-gradient">No surprises.</span>
+            {t('services.titleA')}{' '}
+            <span className="text-gradient">{t('services.titleB')}</span>
           </TextReveal>
           <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
-            Fixed-price projects mean you know the cost before a single line is written.
-            Most clients choose the full-stack package because it covers design,
-            development, and launch in one coherent build.
+            {t('services.description')}
           </TextReveal>
         </div>
 
@@ -208,9 +238,11 @@ export function DevServices() {
           The Backend card is naturally taller thanks to the feature list,
           which gives it visual prominence without breaking the grid.
         */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-start mb-14">
-          {SERVICES.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch mb-14">
+          {services.map((service) => (
+            <div key={service.id} className={service.featured ? 'xl:col-span-2 xl:col-start-2' : ''}>
+              <ServiceCard service={service} />
+            </div>
           ))}
         </div>
 
@@ -220,22 +252,15 @@ export function DevServices() {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-6 py-4 border-b border-surface-border">
               <p className="text-white font-semibold text-sm">
-                Every project includes
+                {t('services.includedTitle')}
               </p>
               <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">
-                no hidden extras
+                {t('services.includedNote')}
               </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-surface-border">
-              {[
-                { icon: '🔐', text: 'HTTPS / SSL' },
-                { icon: '📱', text: 'Mobile-first' },
-                { icon: '⚡', text: 'Core Web Vitals' },
-                { icon: '🔎', text: 'Basic on-page SEO' },
-                { icon: '🚀', text: 'Deployment' },
-                { icon: '📄', text: 'Source code handover' },
-              ].map(({ icon, text }) => (
+              {included.map(([icon, text]) => (
                 <div
                   key={text}
                   className="flex items-center gap-2.5 px-5 py-4 hover:bg-white/[0.02] transition-colors duration-150"
@@ -251,7 +276,7 @@ export function DevServices() {
         {/* ── Trust stats row ───────────────────────────────────────────── */}
         <FadeIn delay={0.25}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 mt-12 pt-12 border-t border-surface-border">
-            {TRUST.map(({ value, label }) => (
+            {trust.map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center gap-1 text-center">
                 <span className="font-mono text-3xl font-bold text-gradient">{value}</span>
                 <span className="text-white/40 text-sm max-w-[180px] leading-tight">{label}</span>

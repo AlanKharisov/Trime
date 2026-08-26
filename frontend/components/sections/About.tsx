@@ -1,9 +1,11 @@
-// Server Component — no 'use client' needed here.
+'use client';
+
 // Interactive hover effects are isolated inside TeamCard (client component).
 import { FadeIn } from '@/components/animations/FadeIn';
 import { TextReveal } from '@/components/animations/TextReveal';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { TeamCard, type TeamMemberData } from './TeamCard';
+import { useLocale } from '@/components/layout/LocaleProvider';
 
 // ─── Team data ────────────────────────────────────────────────────────────────
 // Replace `image` URLs with actual team photos before launch.
@@ -101,6 +103,18 @@ const VALUES = [
 
 // ─── Section component (Server Component) ────────────────────────────────────
 export function About() {
+  const { t } = useLocale();
+  const team = TEAM.map((member, index) => {
+    const keys = ['alex', 'alan', 'emil', 'viktoriia'] as const;
+    const key = keys[index];
+    return {
+      ...member,
+      role: t(`team.${key}.role`),
+      bio: t(`team.${key}.bio`),
+    };
+  });
+  const valueKeys = ['noSilos', 'response', 'senior', 'outcome'] as const;
+
   return (
     <section id="about" aria-label="About Trime Agency" className="relative py-section overflow-hidden">
       <FloatingOrbs
@@ -115,23 +129,20 @@ export function About() {
         {/* ── Section header ──────────────────────────────────────────── */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
-            The Team
+            {t('about.eyebrow')}
           </TextReveal>
           <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
-            Four specialists.{' '}
-            <span className="text-gradient">One seamless workflow.</span>
+            {t('about.titleA')}{' '}
+            <span className="text-gradient">{t('about.titleB')}</span>
           </TextReveal>
           <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
-            We&apos;re a deliberately small agency — four senior professionals who have worked
-            together long enough to finish each other&apos;s sentences. Design decisions are made
-            with performance in mind. Code is written with SEO baked in from line one. That
-            coherence shows in every product we ship.
+            {t('about.description')}
           </TextReveal>
         </div>
 
         {/* ── Team grid ───────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
-          {TEAM.map((member, i) => (
+          {team.map((member, i) => (
             <TeamCard key={member.name} member={member} index={i} />
           ))}
         </div>
@@ -143,26 +154,29 @@ export function About() {
             {/* Strip header */}
             <div className="px-6 py-5 border-b border-surface-border">
               <p className="text-white/50 text-sm">
-                Why clients choose a boutique team over a bloated agency
+                {t('about.valuesTitle')}
               </p>
             </div>
 
             {/* Values grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-surface-border">
-              {VALUES.map(({ icon, title, detail }) => (
+              {VALUES.map(({ icon }, index) => {
+                const key = valueKeys[index];
+                return (
                 <div
-                  key={title}
+                  key={key}
                   className="group px-6 py-6 flex flex-col gap-3 hover:bg-white/[0.02] transition-colors duration-200"
                 >
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-brand-500/10 text-brand-400 group-hover:bg-brand-500/20 group-hover:text-brand-300 transition-colors duration-200">
                     {icon}
                   </div>
                   <div>
-                    <p className="text-white font-semibold text-sm mb-1">{title}</p>
-                    <p className="text-white/45 text-[13px] leading-relaxed">{detail}</p>
+                    <p className="text-white font-semibold text-sm mb-1">{t(`value.${key}.title`)}</p>
+                    <p className="text-white/45 text-[13px] leading-relaxed">{t(`value.${key}.detail`)}</p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </FadeIn>

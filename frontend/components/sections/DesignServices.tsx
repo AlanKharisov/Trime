@@ -1,8 +1,10 @@
-// Server Component — ServiceCard handles all client-side interactivity.
+'use client';
+
 import { FadeIn } from '@/components/animations/FadeIn';
 import { TextReveal } from '@/components/animations/TextReveal';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { ServiceCard, type ServiceData } from './ServiceCard';
+import { useLocale } from '@/components/layout/LocaleProvider';
 
 // ─── Inline SVG icons ─────────────────────────────────────────────────────────
 const icons = {
@@ -54,6 +56,24 @@ const PROCESS = [
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 export function DesignServices() {
+  const { t } = useLocale();
+  const designServices = DESIGN_SERVICES.map((service) => ({
+    ...service,
+    label: t('design.service.label'),
+    name: t('design.service.name'),
+    priceNote: t('design.service.priceNote'),
+    description: t('design.service.description'),
+    features: service.features?.map((_, index) => t(`design.feature${index + 1}`)),
+    cta: t('service.designCta'),
+    badgeText: t('design.service.badge'),
+  }));
+  const process = [
+    { step: '01', title: t('process.discovery.title'), detail: t('process.discovery.detail') },
+    { step: '02', title: t('process.wireframes.title'), detail: t('process.wireframes.detail') },
+    { step: '03', title: t('process.design.title'), detail: t('process.design.detail') },
+    { step: '04', title: t('process.handoff.title'), detail: t('process.handoff.detail') },
+  ];
+
   return (
     <section
       id="design-services"
@@ -102,25 +122,23 @@ export function DesignServices() {
         {/* ── Section header ────────────────────────────────────────────── */}
         <div className="max-w-2xl mx-auto text-center mb-14">
           <TextReveal as="p" className="text-violet-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4 font-mono">
-            {'// design_services'}
+            {t('design.eyebrow')}
           </TextReveal>
           <TextReveal as="h2" className="text-display-xl font-bold text-white mb-5">
-            Design that converts,{' '}
+            {t('design.titleA')}{' '}
             <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-violet-300 via-pink-300 to-rose-400 bg-clip-text text-transparent">
-              not just impresses.
+              {t('design.titleB')}
             </span>
           </TextReveal>
           <TextReveal as="p" delay={0.1} className="text-white/55 text-lg leading-relaxed">
-            Every pixel is a decision. Our designer brings a background in cognitive
-            psychology to every project — so layouts guide users toward action, not
-            just look good in a portfolio screenshot.
+            {t('design.description')}
           </TextReveal>
         </div>
 
         {/* ── Cards grid ───────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 max-w-md mx-auto mb-16">
-          {DESIGN_SERVICES.map((service) => (
+          {designServices.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
         </div>
@@ -130,14 +148,14 @@ export function DesignServices() {
           <div className="rounded-2xl border border-surface-border bg-surface-card overflow-hidden">
 
             <div className="px-6 py-5 border-b border-surface-border flex items-center justify-between gap-4">
-              <p className="text-white font-semibold text-sm">Our design process</p>
+              <p className="text-white font-semibold text-sm">{t('design.processTitle')}</p>
               <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase hidden sm:block">
-                4-step workflow
+                {t('design.processNote')}
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-surface-border">
-              {PROCESS.map(({ step, title, detail }) => (
+              {process.map(({ step, title, detail }) => (
                 <div
                   key={step}
                   className="group px-6 py-6 flex flex-col gap-3 hover:bg-white/[0.02] transition-colors duration-200"
@@ -156,7 +174,7 @@ export function DesignServices() {
         {/* ── Tool badges ──────────────────────────────────────────────── */}
         <FadeIn delay={0.2}>
           <div className="flex flex-wrap items-center justify-center gap-3 mt-10">
-            <span className="text-xs text-white/25 mr-1 tracking-widest uppercase font-mono">Tools</span>
+            <span className="text-xs text-white/25 mr-1 tracking-widest uppercase font-mono">{t('design.tools')}</span>
             {['Figma', 'FigJam', 'Framer', 'Adobe Illustrator', 'Lottie', 'Zeroheight'].map((tool) => (
               <span
                 key={tool}

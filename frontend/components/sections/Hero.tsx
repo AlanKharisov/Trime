@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { CountUp } from '@/components/animations/CountUp';
 import { HeroObject3D } from '@/components/animations/HeroObject3D';
+import { useLocale } from '@/components/layout/LocaleProvider';
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const container = {
@@ -12,9 +13,9 @@ const container = {
 };
 
 const item = {
-  hidden:  { opacity: 0, y: 28, filter: 'blur(8px)' },
+  hidden:  { opacity: 0, y: 28 },
   visible: {
-    opacity: 1, y: 0, filter: 'blur(0px)',
+    opacity: 1, y: 0,
     transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
   },
 };
@@ -30,14 +31,14 @@ const wordReveal = {
 // ─── Tech stack pill data ─────────────────────────────────────────────────────
 const STACK = ['Next.js', 'TypeScript', 'Tailwind', 'Framer Motion', 'Node.js', 'Figma'] as const;
 
-// ─── Stat cards ───────────────────────────────────────────────────────────────
-const STATS = [
-  { value: '50+', label: 'Projects shipped' },
-  { value: '98%', label: 'Client satisfaction' },
-  { value: '4×',  label: 'Avg. perf improvement' },
-] as const;
-
 export function Hero() {
+  const { t } = useLocale();
+  const stats = [
+    { value: '50+', label: t('hero.statProjects') },
+    { value: '98%', label: t('hero.statSatisfaction') },
+    { value: '4×', label: t('hero.statPerformance') },
+  ];
+
   return (
     <section
       aria-label="Hero"
@@ -89,7 +90,7 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500" />
               </span>
-              Full-Cycle Digital Agency
+              {t('hero.eyebrow')}
             </span>
           </motion.div>
 
@@ -101,14 +102,12 @@ export function Hero() {
             className="text-display-2xl font-bold tracking-tight"
           >
             <span className="block overflow-hidden">
-              <motion.span variants={wordReveal} className="inline-block">We</motion.span>{' '}
-              <motion.span variants={wordReveal} className="inline-block">Build</motion.span>{' '}
-              <motion.span variants={wordReveal} className="inline-block">Products</motion.span>
+              <motion.span variants={wordReveal} className="inline-block">{t('hero.h1a')}</motion.span>
             </span>
             <span className="block overflow-hidden">
               <motion.span variants={wordReveal} className="inline-block">
                 <span className="relative inline-block">
-                  <span className="text-gradient">People Love</span>
+                  <span className="text-gradient">{t('hero.h1b')}</span>
                   <motion.svg
                     viewBox="0 0 320 12"
                     fill="none"
@@ -135,10 +134,7 @@ export function Hero() {
               </motion.span>
             </span>
             <span className="block overflow-hidden">
-              <motion.span variants={wordReveal} className="inline-block text-white/90">From</motion.span>{' '}
-              <motion.span variants={wordReveal} className="inline-block text-white/90">Concept</motion.span>{' '}
-              <motion.span variants={wordReveal} className="inline-block text-white/90">to</motion.span>{' '}
-              <motion.span variants={wordReveal} className="inline-block text-white/90">Code</motion.span>
+              <motion.span variants={wordReveal} className="inline-block text-white/90">{t('hero.h1c')}</motion.span>
             </span>
           </motion.h1>
 
@@ -147,9 +143,7 @@ export function Hero() {
             variants={item}
             className="text-lg text-white/55 max-w-2xl leading-relaxed"
           >
-            A senior 4-person team covering the full stack — design systems, scalable
-            back-ends, performance-tuned front-ends, and search rankings that actually
-            move. One team, zero hand-off friction.
+            {t('hero.description')}
           </motion.p>
 
           {/* Social proof — avatars + star count */}
@@ -174,8 +168,8 @@ export function Hero() {
               ))}
             </div>
             <div className="text-sm text-white/50">
-              <span className="text-white font-semibold">50+ clients</span>
-              {' '}trust Trime with their product
+              <span className="text-white font-semibold">{t('hero.clients')}</span>
+              {' '}{t('hero.clientsTail')}
             </div>
           </motion.div>
           </motion.div>
@@ -186,7 +180,11 @@ export function Hero() {
             transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="hero-stage"
           >
-            <HeroObject3D />
+            <HeroObject3D labels={{
+              designCode: t('hero.designCode'),
+              satisfaction: t('hero.satisfaction'),
+              move: t('hero.move'),
+            }} />
           </motion.div>
         </div>
 
@@ -197,7 +195,7 @@ export function Hero() {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 1.1 } } }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-12 lg:mt-16 max-w-3xl mx-auto w-full rounded-2xl overflow-hidden border border-surface-border bg-surface-border"
         >
-          {STATS.map(({ value, label }) => (
+          {stats.map(({ value, label }) => (
             <motion.div
               key={label}
               variants={{
@@ -223,7 +221,7 @@ export function Hero() {
           className="flex flex-wrap items-center justify-center gap-2 mt-10"
           aria-label="Technologies we use"
         >
-          <span className="text-xs text-white/25 mr-1 tracking-widest uppercase">Built with</span>
+          <span className="text-xs text-white/25 mr-1 tracking-widest uppercase">{t('hero.builtWith')}</span>
           {STACK.map((tech, i) => (
             <motion.span
               key={tech}
@@ -251,7 +249,7 @@ export function Hero() {
         transition={{ delay: 2.2, duration: 0.6 }}
         aria-hidden
       >
-        <span className="text-[10px] tracking-[0.2em] uppercase text-white/20">Scroll</span>
+        <span className="text-[10px] tracking-[0.2em] uppercase text-white/20">{t('hero.scroll')}</span>
         <motion.div
           className="w-px h-10 bg-gradient-to-b from-white/20 to-transparent"
           animate={{ scaleY: [0, 1, 0], originY: 0 }}

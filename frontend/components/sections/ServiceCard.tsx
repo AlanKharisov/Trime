@@ -55,7 +55,7 @@ export function ServiceCard({ service }: { service: ServiceData }) {
       variants={{ hovered: { y: -8, transition: { duration: 0.25 } } }}
       whileFocus={{ y: -4 }}
       className={cn(
-        'relative flex flex-col rounded-2xl overflow-hidden transition-[box-shadow,border-color] duration-300',
+        'relative flex h-full flex-col rounded-2xl overflow-hidden transition-[box-shadow,border-color] duration-300',
         featured
           ? 'border border-brand-500/50 bg-gradient-to-b from-brand-950/80 to-surface-card shadow-glow hover:shadow-glow-lg'
           : 'border border-surface-border bg-surface-card hover:border-brand-500/25 hover:shadow-[0_0_30px_-8px_rgba(37,88,255,0.2)]',

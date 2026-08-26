@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/constants';
 import { AutoTranslate } from './LanguageSwitcher';
+import { useLocale } from './LocaleProvider';
 
 // ─── Mobile menu animation variants ─────────────────────────────────────────
 const menuVariants = {
@@ -60,6 +61,7 @@ export function Navbar() {
   const [open, setOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef            = useRef<HTMLElement>(null);
+  const { t } = useLocale();
 
   // Close menu when route changes
   useEffect(() => { setOpen(false); }, [pathname]);
@@ -123,7 +125,7 @@ export function Navbar() {
 
           {/* ── Desktop nav ───────────────────────────────────────────────── */}
           <nav aria-label="Primary" className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map(({ label, href }) => {
+            {NAV_LINKS.map(({ key, href }) => {
               const active = pathname === href || pathname.startsWith(href + '/');
               return (
                 <Link
@@ -143,7 +145,7 @@ export function Navbar() {
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   )}
-                  <span className="relative z-10">{label}</span>
+                  <span className="relative z-10">{t(`nav.${key}`)}</span>
                 </Link>
               );
             })}
@@ -181,7 +183,7 @@ export function Navbar() {
               aria-label="Mobile"
               className="section-wrapper py-4 flex flex-col gap-1"
             >
-              {NAV_LINKS.map(({ label, href }, i) => {
+              {NAV_LINKS.map(({ key, href }, i) => {
                 const active = pathname === href || pathname.startsWith(href + '/');
                 return (
                   <motion.div
@@ -201,7 +203,7 @@ export function Navbar() {
                           : 'text-white/60 hover:text-white hover:bg-white/[0.05]',
                       )}
                     >
-                      {label}
+                      {t(`nav.${key}`)}
                     </Link>
                   </motion.div>
                 );

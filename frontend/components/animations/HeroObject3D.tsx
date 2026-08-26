@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type PointerEvent } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 
 interface Tilt {
   x: number;
@@ -12,7 +12,13 @@ interface Tilt {
  * A lightweight CSS 3D product stage. It gives the hero a tactile, Apple-like
  * presentation without WebGL, a canvas, or a large runtime dependency.
  */
-export function HeroObject3D() {
+interface HeroObject3DLabels {
+  designCode: string;
+  satisfaction: string;
+  move: string;
+}
+
+export function HeroObject3D({ labels }: { labels: HeroObject3DLabels }) {
   const reducedMotion = useReducedMotion();
   const [tilt, setTilt] = useState<Tilt>({ x: 0, y: 0 });
 
@@ -34,12 +40,8 @@ export function HeroObject3D() {
       <div className="hero-3d-glow" aria-hidden="true" />
       <div className="hero-3d-grid" aria-hidden="true" />
 
-      <motion.div
-        className="hero-3d-float"
-        animate={reducedMotion ? undefined : { y: [0, -12, 0], rotateZ: [0, 1, -1, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
-      >
+      <div className="hero-3d-tilt" style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
+      <div className="hero-3d-float">
         <div className="hero-3d-orbit hero-3d-orbit-one" aria-hidden="true" />
         <div className="hero-3d-orbit hero-3d-orbit-two" aria-hidden="true" />
 
@@ -61,17 +63,18 @@ export function HeroObject3D() {
 
         <div className="hero-3d-card hero-3d-card-top">
           <span className="hero-3d-card-dot" />
-          <span>DESIGN / CODE</span>
+          <span>{labels.designCode}</span>
         </div>
         <div className="hero-3d-card hero-3d-card-bottom">
           <span className="hero-3d-card-value">98%</span>
-          <span className="hero-3d-card-label">client satisfaction</span>
+          <span className="hero-3d-card-label">{labels.satisfaction}</span>
         </div>
-      </motion.div>
+      </div>
+      </div>
 
       <div className="hero-3d-note" aria-hidden="true">
         <span className="hero-3d-note-line" />
-        <span>Move to explore</span>
+        <span>{labels.move}</span>
       </div>
     </div>
   );

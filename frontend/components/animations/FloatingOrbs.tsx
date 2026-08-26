@@ -1,7 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
-
 interface Orb {
   cx: string;
   cy: string;
@@ -22,9 +18,9 @@ export function FloatingOrbs({ orbs = DEFAULT_ORBS, className = '' }: { orbs?: O
   return (
     <div aria-hidden className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`}>
       {orbs.map((orb, i) => (
-        <motion.div
+        <div
           key={i}
-          className="absolute rounded-full blur-3xl"
+          className={`floating-orb floating-orb-${i % 4}`}
           style={{
             left: orb.cx,
             top: orb.cy,
@@ -33,17 +29,8 @@ export function FloatingOrbs({ orbs = DEFAULT_ORBS, className = '' }: { orbs?: O
             marginLeft: -orb.size / 2,
             marginTop: -orb.size / 2,
             background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
-          }}
-          animate={{
-            x: [0, 40, -30, 20, 0],
-            y: [0, -30, 40, -20, 0],
-            scale: [1, 1.08, 0.95, 1.05, 1],
-          }}
-          transition={{
-            duration: orb.duration,
-            delay: orb.delay,
-            repeat: Infinity,
-            ease: 'easeInOut',
+            animationDuration: `${orb.duration}s`,
+            animationDelay: `${orb.delay}s`,
           }}
         />
       ))}
