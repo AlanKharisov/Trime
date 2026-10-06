@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TextReveal } from '@/components/animations/TextReveal';
 import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
 import { useLocale } from '@/components/layout/LocaleProvider';
+import { OrderForm } from './OrderForm';
 
 const CEO_TELEGRAM = 'https://t.me/kostikov99';
 
@@ -54,6 +55,8 @@ export function Contact() {
               {t('contact.description')}
             </TextReveal>
           </motion.div>
+
+          <OrderForm />
 
           {/* Telegram CTA */}
           <motion.a
