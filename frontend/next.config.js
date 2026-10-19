@@ -1,24 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static export for GitHub Pages (frontend/out).
   output: 'export',
   trailingSlash: true,
-
-  eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
   reactStrictMode: true,
-  compress: true,
   poweredByHeader: false,
-
-  images: {
-    loader: 'custom',
-    loaderFile: './lib/imageLoader.js',
-  },
-
-  modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
-    },
-  },
+  // Images are pre-optimised WebP in /public and rendered with <img>.
+  images: { unoptimized: true },
 };
 
 module.exports = nextConfig;

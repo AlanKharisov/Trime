@@ -7,7 +7,9 @@
     "install:all": "npm install --prefix frontend",
     "build": "npm run build --prefix frontend",
     "lint": "npm run lint --prefix frontend",
-    "type-check": "npm run type-check --prefix frontend"
+    "type-check": "npm run type-check --prefix frontend",
+    "test:api": "npm test --prefix telegram-api",
+    "dev:api": "ALLOWED_ORIGINS=http://localhost:3000 npm run dev --prefix telegram-api -- --mock-telegram"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
