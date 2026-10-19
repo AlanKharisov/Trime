@@ -1,107 +1,128 @@
 # Trime
 
-A fast, responsive agency website built to present digital product, design, and engineering services clearly.
+A fast, responsive agency website for TRIME — a full-cycle digital product team.
 
 [Live website](https://trime.org)
 
 ## Overview
 
-This repository contains the production website for Trime, a four-person digital agency. The site turns the agency's services, team, and contact paths into a focused marketing experience that is statically generated and deployed through GitHub Pages.
+The site is a single landing page (with a few short inner routes kept for existing links) that presents services, business-stage solutions, selected work, starting prices, the delivery process, the team and a project request form. It is statically generated with Next.js and deployed to GitHub Pages. Project requests go through a small serverless API that forwards them to the team's Telegram chat.
 
-## Highlights
-
-- Responsive marketing pages for services, work, team, and contact.
-- Static generation for predictable performance and low hosting overhead.
-- Reusable layout, section, UI, and animation components.
-- Motion and count-up interactions built with Framer Motion.
-- Client-side language switching.
-- Custom 404 handling and trailing-slash routing for static hosting.
-- Automated deployment to GitHub Pages from `main`.
+```text
+frontend/        Next.js 14 static site → GitHub Pages (trime.org)
+telegram-api/    Vercel serverless function POST /api/order → Telegram
+```
 
 ## Technology
 
-- Next.js 14
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- React Hook Form and Zod
-- GitHub Actions and GitHub Pages
+- Next.js 14 (App Router, static export), React 18, TypeScript
+- Plain CSS with design tokens (`frontend/app/globals.css`) — no UI framework
+- Manrope + JetBrains Mono via `next/font` (self-hosted at build time)
+- Vercel serverless function (Node 20) for form delivery
+- GitHub Actions → GitHub Pages
 
-## Architecture
+## Structure
 
 ```text
 frontend/
 ├── app/
-│   ├── (marketing)/       # Page routes
-│   ├── layout.tsx         # Global metadata and document shell
-│   └── globals.css
+│   ├── layout.tsx         # fonts, metadata, Open Graph, JSON-LD
+│   ├── globals.css        # V2 tokens, components, responsive rules (≤1024 / ≤640)
+│   ├── icon.png, apple-icon.png
+│   └── (site)/            # home page + /services /work /team /about /contact
 ├── components/
-│   ├── animations/        # Reusable motion primitives
-│   ├── layout/            # Navigation, footer, language controls
-│   ├── sections/          # Marketing page sections
-│   └── ui/
-├── lib/                   # Constants, utilities, and image loading
-└── public/                # Images and static assets
+│   ├── Header.tsx         # sticky header, burger menu, language select
+│   ├── Footer.tsx
+│   ├── LocaleProvider.tsx # EN / UK / RU / ES with browser + country detection
+│   ├── Icon.tsx           # inline Lucide-compatible icons
+│   └── sections/          # Hero, Services, Solutions, Work, Pricing, Process, Team, Contact
+├── lib/
+│   ├── site.ts            # verified contacts, team links, placeholder switch
+│   ├── order.ts           # form field rules (mirrored in telegram-api)
+│   └── content/           # all copy, one file per language
+└── public/                # team photos (WebP), logo, og.png, sitemap, robots
+telegram-api/
+├── api/order.js           # validation, anti-spam, rate limit, Telegram delivery
+├── order.test.js          # node --test
+└── dev-server.js          # local runner (optionally with a mocked Telegram)
 ```
-
-Next.js exports the application as static files. GitHub Actions uploads `frontend/out` and publishes it to the `github-pages` environment.
 
 ## Run locally
 
-### Prerequisites
-
-- Node.js 20
-- npm
+Prerequisites: Node.js 20 and npm.
 
 ```bash
-git clone https://github.com/AlanKharisov/Trime.git
-cd Trime
-
 npm ci --prefix frontend
+cp frontend/.env.example frontend/.env.local
 npm run dev --prefix frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open <http://localhost:3000>.
 
-### Production build
+To exercise the contact form locally, run the API in a second terminal:
 
 ```bash
-npm run build --prefix frontend
+cd telegram-api
+ALLOWED_ORIGINS=http://localhost:3000 npm run dev -- --mock-telegram
 ```
 
-The static export is written to `frontend/out/`.
+`--mock-telegram` prints the message in the terminal instead of sending it; nothing reaches the team. `--fail-telegram` simulates a Telegram failure. To deliver for real, drop the flag and set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
+
+## Checks
+
+```bash
+npm run type-check --prefix frontend
+npm run lint --prefix frontend
+npm test --prefix telegram-api
+npm run build --prefix frontend      # static export → frontend/out
+```
 
 ## Environment variables
 
-The current site does not require a committed `.env` file. If future integrations need credentials, add an `.env.example` containing names and placeholders only, and store real values in GitHub Actions secrets or the deployment platform.
+| Where | Name | Purpose |
+| --- | --- | --- |
+| GitHub Actions variable | `ORDER_ENDPOINT` | Passed to the build as `NEXT_PUBLIC_ORDER_ENDPOINT`. Currently `https://trime-telegram-api.vercel.app/api/order`. |
+| Frontend (optional) | `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata. Default `https://trime.org`. |
+| Frontend (optional) | `NEXT_PUBLIC_SHOW_PLACEHOLDERS` | `true` shows unverified content (demo portfolio, email, social links) in a production build — for review deployments only. Always on in `next dev`. |
+| Vercel `trime-telegram-api` | `TELEGRAM_BOT_TOKEN` | Bot token. **Server-side only.** |
+| Vercel `trime-telegram-api` | `TELEGRAM_CHAT_ID` | Destination chat/group ID. |
+| Vercel `trime-telegram-api` (optional) | `ALLOWED_ORIGINS` | Comma-separated list that replaces the default `https://trime.org,https://www.trime.org`. |
+
+Everything prefixed `NEXT_PUBLIC_` ends up in the public bundle — never put secrets there.
+
+## Contact form
+
+Flow: form → `POST /api/order` (Vercel) → Telegram `sendMessage` → team chat.
+
+- Required: full name, email or Telegram (`you@company.com`, `@username`, `t.me/username`), project type, description (≥20 characters).
+- Optional: budget, timeline (fixed lists) and website URL.
+- The browser validates first; the API validates again and returns the names of invalid fields.
+- Anti-spam: hidden honeypot field, minimum 3 s between rendering and sending, strict origin allow-list, JSON-only.
+- Rate limit: 5 requests per IP per 10 minutes inside each function instance. Instances don't share memory, so also add a Vercel Firewall rate-limit rule for `POST /api/order` (see `telegram-api/README.md`).
+- The success panel appears only after Telegram confirms delivery. On any failure the text stays in the form and the visitor gets a Telegram link.
+- Submissions are not stored; if Telegram is not configured the API answers `503` and logs it — nothing is reported as sent.
+- The API still accepts the V1 payload, so it can be deployed before the new site.
+
+Setup steps are in [`telegram-api/README.md`](telegram-api/README.md).
+
+## Content rules
+
+`frontend/lib/site.ts` holds only verified facts (team names, photos and profile links from the V1 site, the Telegram contact). Unconfirmed items are `null` and render as highlighted placeholders in development only; production builds hide them:
+
+- Selected Work shows three clearly labelled demo cards in development and a "Case studies on request" panel in production until real projects are added.
+- Company email and company LinkedIn/GitHub are hidden in production until set.
+
+Starting prices are in `frontend/components/sections/Pricing.tsx`; all copy is in `frontend/lib/content/*.ts` (EN, UK, RU, ES).
 
 ## Deployment
 
-Pushes to `main` trigger `.github/workflows/deploy.yml`:
+Pushes to `main` trigger `.github/workflows/deploy.yml`: checks, static export, upload, deploy to [trime.org](https://trime.org). Deploy order for V2:
 
-1. install the locked frontend dependencies;
-2. create the static Next.js export;
-3. upload the Pages artifact;
-4. deploy it to [trime.org](https://trime.org).
-
-The live site returned HTTP 200 during the latest repository audit.
-
-## Demo
-
-- Production: [trime.org](https://trime.org)
-- Recommended repository captures: desktop hero, services/work section, and mobile navigation.
-
-Only real screenshots from the production site should be added to this README.
-
-## Status
-
-Live and actively maintained. The production build completes successfully. The current dependency audit reports high-severity advisories that should be handled in a separate, tested dependency-upgrade task.
-
-## My contribution
-
-I authored and maintain the implementation in this repository, including the Next.js structure, responsive sections, animation system, static-export configuration, and GitHub Pages delivery. Trime is presented as a team service; this section describes my engineering contribution to its website.
+1. Deploy `telegram-api` to the existing Vercel project (`vercel --prod` from `telegram-api/`). It is backward compatible with the current site.
+2. Confirm `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` and the firewall rule in Vercel.
+3. Merge `feature/trime-v2` into `main` — GitHub Actions publishes the site.
+4. Send one real request from trime.org and confirm it arrives in Telegram.
 
 ## License
 
-Proprietary — © Trime Agency.
+Proprietary — © TRIME.

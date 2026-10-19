@@ -1,93 +1,239 @@
 'use client';
-import { motion } from 'framer-motion';
-import { TextReveal } from '@/components/animations/TextReveal';
-import { FloatingOrbs } from '@/components/animations/FloatingOrbs';
-import { useLocale } from '@/components/layout/LocaleProvider';
-import { OrderForm } from './OrderForm';
 
-const CEO_TELEGRAM = 'https://t.me/kostikov99';
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
+import {
+  BUDGETS, EMPTY_ORDER, LIMITS, PROJECT_TYPES, TIMELINES, validateOrder,
+  type OrderErrors, type OrderField, type OrderValues,
+} from '@/lib/order';
+import { CONTACT, ORDER_ENDPOINT, SECTIONS } from '@/lib/site';
+import { Icon } from '../Icon';
+import { useLocale } from '../LocaleProvider';
 
-// ─── Main component ───────────────────────────────────────────────────────────
-export function Contact() {
-  const { t } = useLocale();
+type Failure = 'generic' | 'network' | 'rateLimited' | 'notConfigured';
+type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'success' } | { kind: 'error'; failure: Failure | 'invalid' };
+
+const FIELD_ORDER: OrderField[] = ['name', 'contact', 'projectType', 'description', 'budget', 'timeline', 'website'];
+const REQUEST_TIMEOUT_MS = 15_000;
+
+function Field({
+  id, label, optional, error, children,
+}: { id: OrderField; label: string; optional?: string; error?: string; children: ReactNode }) {
   return (
-    <section
-      id="contact"
-      aria-label="Contact Trime Agency"
-      className="relative py-section overflow-hidden"
-    >
-      {/* Background glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(37,88,255,0.08) 0%, transparent 70%)',
-        }}
-      />
+    <div className={`field field--${id}${error ? ' field--error' : ''}`}>
+      <label htmlFor={`f-${id}`} className="field__label">
+        {label}{optional ? <span className="field__opt"> · {optional}</span> : <span aria-hidden="true"> *</span>}
+      </label>
+      {children}
+      {error && (
+        <p id={`f-${id}-error`} className="field__error">
+          <Icon name="alert" size={14} /> {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
-      {/* Floating orbs */}
-      <FloatingOrbs
-        orbs={[
-          { cx: '50%', cy: '110%', size: 460, color: 'rgba(37,88,255,0.10)', duration: 18, delay: 0 },
-          { cx: '15%', cy: '60%', size: 220, color: 'rgba(255,92,53,0.05)', duration: 20, delay: 2 },
-        ]}
-      />
+export function Contact() {
+  const { c, locale } = useLocale();
+  const t = c.contact;
+  const [values, setValues] = useState<OrderValues>(EMPTY_ORDER);
+  const [errors, setErrors] = useState<OrderErrors>({});
+  const [status, setStatus] = useState<Status>({ kind: 'idle' });
+  const startedAt = useRef(0);
+  const formRef = useRef<HTMLFormElement>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
+  const alertRef = useRef<HTMLDivElement>(null);
 
-      <div className="section-wrapper">
-        <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-10">
+  useEffect(() => { startedAt.current = Date.now(); }, []);
+  useEffect(() => { if (status.kind === 'success') successRef.current?.focus(); }, [status.kind]);
 
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center gap-4"
-          >
-            <TextReveal as="p" className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase font-mono">
-              {t('contact.eyebrow')}
-            </TextReveal>
-            <TextReveal as="h2" className="text-display-lg font-bold text-white">
-              {t('contact.titleA')}{' '}
-              <span className="text-gradient">{t('contact.titleB')}</span>
-            </TextReveal>
-            <TextReveal as="p" delay={0.1} className="text-white/50 text-[15px] leading-relaxed max-w-lg">
-              {t('contact.description')}
-            </TextReveal>
-          </motion.div>
+  const sending = status.kind === 'sending';
 
-          <OrderForm />
+  const update = (field: OrderField) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const value = e.target.value;
+    setValues((v) => ({ ...v, [field]: value }));
+    // Clear a field's error as soon as it is edited.
+    if (errors[field]) setErrors(({ [field]: _removed, ...rest }) => rest);
+    if (status.kind === 'error') setStatus({ kind: 'idle' });
+  };
 
-          {/* Telegram CTA */}
-          <motion.a
-            href={CEO_TELEGRAM}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-brand-500 hover:bg-brand-400 text-white font-semibold text-base shadow-glow hover:shadow-glow-lg transition-[background-color,box-shadow] duration-200"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5" aria-hidden>
-              <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-            </svg>
-            {t('contact.cta')}
-          </motion.a>
+  const focusFirstInvalid = (found: OrderErrors) => {
+    const first = FIELD_ORDER.find((f) => found[f]);
+    if (first) document.getElementById(`f-${first}`)?.focus();
+  };
 
-          {/* Trust note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-white/25 text-xs"
-          >
-            {t('contact.note')}
-          </motion.p>
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (sending) return;
 
+    const found = validateOrder(values);
+    if (Object.keys(found).length) {
+      setErrors(found);
+      setStatus({ kind: 'error', failure: 'invalid' });
+      focusFirstInvalid(found);
+      return;
+    }
+    if (!ORDER_ENDPOINT) {
+      setStatus({ kind: 'error', failure: 'notConfigured' });
+      alertRef.current?.focus();
+      return;
+    }
+
+    setStatus({ kind: 'sending' });
+    const honeypot = (formRef.current?.elements.namedItem('fax') as HTMLInputElement | null)?.value ?? '';
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+    let failure: Failure = 'generic';
+    try {
+      const response = await fetch(ORDER_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, locale, startedAt: startedAt.current, fax: honeypot }),
+        credentials: 'omit',
+        signal: controller.signal,
+      });
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; fields?: OrderField[] };
+
+      if (response.ok && result.ok === true) {
+        setStatus({ kind: 'success' });
+        return;
+      }
+      if (response.status === 400 && Array.isArray(result.fields) && result.fields.length) {
+        const serverErrors = Object.fromEntries(result.fields.map((f) => [f, true])) as OrderErrors;
+        setErrors(serverErrors);
+        setStatus({ kind: 'error', failure: 'invalid' });
+        focusFirstInvalid(serverErrors);
+        return;
+      }
+      if (response.status === 429) failure = 'rateLimited';
+      else if (response.status === 503) failure = 'notConfigured';
+    } catch {
+      failure = 'network';
+    } finally {
+      window.clearTimeout(timer);
+    }
+    setStatus({ kind: 'error', failure });
+    // Wait for the alert to render before moving focus to it.
+    window.requestAnimationFrame(() => alertRef.current?.focus());
+  }
+
+  const reset = () => {
+    setValues(EMPTY_ORDER);
+    setErrors({});
+    setStatus({ kind: 'idle' });
+    startedAt.current = Date.now();
+    window.requestAnimationFrame(() => document.getElementById('f-name')?.focus());
+  };
+
+  const err = (f: OrderField) => (errors[f] ? t.errors[f] : undefined);
+  const aria = (f: OrderField) => ({
+    id: `f-${f}`,
+    name: f,
+    value: values[f],
+    onChange: update(f),
+    'aria-invalid': errors[f] ? true : undefined,
+    'aria-describedby': errors[f] ? `f-${f}-error` : undefined,
+  });
+
+  const failure = status.kind === 'error' ? status.failure : null;
+  const telegram = CONTACT.telegram;
+
+  return (
+    <section id={SECTIONS.contact} className="section section--contact" aria-labelledby="contact-title">
+      <div className="container">
+        <div className="contact">
+          <div className="contact__ring" aria-hidden="true" />
+          <div className="contact__copy">
+            <p className="eyebrow eyebrow--muted">{t.eyebrow}</p>
+            <h2 id="contact-title" className="h2">{t.title}</h2>
+            <p className="lead">{t.lead}</p>
+            <ul className="checks">
+              {t.points.map((p) => <li key={p}><Icon name="check" size={16} /> {p}</li>)}
+            </ul>
+          </div>
+
+          <div className="contact__form">
+            {status.kind === 'success' ? (
+              <div className="success" role="status">
+                <span className="success__icon"><Icon name="check" size={22} /></span>
+                <h3 ref={successRef} tabIndex={-1} className="success__title">{t.success.title}</h3>
+                <p className="body">{t.success.text}</p>
+                <button type="button" className="btn btn--soft" onClick={reset}>{t.success.again}</button>
+              </div>
+            ) : (
+              <form ref={formRef} onSubmit={submit} noValidate aria-busy={sending} className="form">
+                {!ORDER_ENDPOINT && process.env.NODE_ENV === 'development' && (
+                  <p className="dev-note">{t.devNotConfigured}</p>
+                )}
+                <fieldset disabled={sending} className="form__grid">
+                  <legend className="sr-only">{t.title}</legend>
+                  <Field id="name" label={t.labels.name} error={err('name')}>
+                    <input {...aria('name')} type="text" autoComplete="name" maxLength={LIMITS.name} placeholder={t.placeholders.name} required />
+                  </Field>
+                  <Field id="contact" label={t.labels.contact} error={err('contact')}>
+                    <input {...aria('contact')} type="text" inputMode="email" autoComplete="email" autoCapitalize="off" spellCheck={false} maxLength={LIMITS.contact} placeholder={t.placeholders.contact} required />
+                  </Field>
+                  <Field id="projectType" label={t.labels.projectType} error={err('projectType')}>
+                    <div className="select">
+                      <select {...aria('projectType')} required>
+                        <option value="" disabled>{t.placeholders.projectType}</option>
+                        {PROJECT_TYPES.map((p) => <option key={p} value={p}>{t.projectTypes[p]}</option>)}
+                      </select>
+                      <Icon name="chevronDown" size={16} />
+                    </div>
+                  </Field>
+                  <Field id="description" label={t.labels.description} error={err('description')}>
+                    <textarea {...aria('description')} rows={4} maxLength={LIMITS.description} placeholder={t.placeholders.description} required />
+                  </Field>
+                  <Field id="budget" label={t.labels.budget} optional={t.labels.optional} error={err('budget')}>
+                    <div className="select">
+                      <select {...aria('budget')}>
+                        <option value="">{t.placeholders.select}</option>
+                        {BUDGETS.map((b) => <option key={b} value={b}>{t.budgets[b]}</option>)}
+                      </select>
+                      <Icon name="chevronDown" size={16} />
+                    </div>
+                  </Field>
+                  <Field id="timeline" label={t.labels.timeline} optional={t.labels.optional} error={err('timeline')}>
+                    <div className="select">
+                      <select {...aria('timeline')}>
+                        <option value="">{t.placeholders.select}</option>
+                        {TIMELINES.map((x) => <option key={x} value={x}>{t.timelines[x]}</option>)}
+                      </select>
+                      <Icon name="chevronDown" size={16} />
+                    </div>
+                  </Field>
+                  <Field id="website" label={t.labels.website} optional={t.labels.optional} error={err('website')}>
+                    <input {...aria('website')} type="text" inputMode="url" autoComplete="url" autoCapitalize="off" spellCheck={false} maxLength={LIMITS.website} placeholder={t.placeholders.website} />
+                  </Field>
+
+                  {/* Honeypot: hidden from people and assistive tech; bots tend to fill it. */}
+                  <div className="hp" aria-hidden="true">
+                    <label htmlFor="f-fax">Fax</label>
+                    <input id="f-fax" name="fax" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+                  </div>
+                </fieldset>
+
+                {failure && (
+                  <div ref={alertRef} tabIndex={-1} className="form__alert" role="alert">
+                    <Icon name="alert" size={16} />
+                    <span>
+                      {failure === 'invalid' ? t.errors.summary : t.failure[failure]}
+                      {failure !== 'invalid' && telegram && (
+                        <> <a href={telegram.href} target="_blank" rel="noopener noreferrer">{t.failure.telegram} ({telegram.label})</a></>
+                      )}
+                    </span>
+                  </div>
+                )}
+
+                <button type="submit" className="btn btn--submit" disabled={sending}>
+                  {sending ? (<><span className="spinner" aria-hidden="true" /> {t.sending}</>) : (<>{t.submit} <Icon name="arrowRight" size={18} /></>)}
+                </button>
+                <p className="form__note">{t.note}</p>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>

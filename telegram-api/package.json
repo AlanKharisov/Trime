@@ -2,5 +2,9 @@
   "name": "trime-telegram-api",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node --test" }
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test",
+    "dev": "node dev-server.js"
+  }
 }
